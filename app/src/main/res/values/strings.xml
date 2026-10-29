@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SB PHOTO TOOL</string>
+    <string name="work_channel_name">사진 처리</string>
+    <string name="work_channel_description">사진과 GIF를 백그라운드에서 처리하는 진행 알림입니다.</string>
+    <string name="work_notification_title">SB PHOTO TOOL 처리 중</string>
+</resources>
+
