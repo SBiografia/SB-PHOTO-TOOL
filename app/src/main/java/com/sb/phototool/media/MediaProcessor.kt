@@ -60,17 +60,18 @@ data class ProcessingSummary(
     val inputBytes: Long = 0,
     val outputBytes: Long = 0,
     val measuredFiles: Int = 0,
+    val compressedOriginalUris: List<String> = emptyList(),
 ) {
     val userMessage: String
-        get() = when {
-            failed == 0 -> "${succeeded}개 파일을 저장했어요." + (details.firstOrNull()?.let { "\n$it" } ?: "")
-            succeeded == 0 -> details.firstOrNull() ?: "저장하지 못했어요."
+        get() = (when {
+            failed == 0 -> "${succeeded}개 파일을 저장했어요."
+            succeeded == 0 -> "저장하지 못했어요."
             else -> "${succeeded}개 저장, ${failed}개를 처리하지 못했어요."
-        }
+        }) + if (details.isEmpty()) "" else details.joinToString(separator = "\n", prefix = "\n")
 }
 
-data class CompressionPreview(val inputBytes: Long, val outputBytes: Long, val width: Int, val height: Int, val bitmap: Bitmap, val copied: Boolean, val targetMet: Boolean)
-private data class PreparedCompression(val file: File, val inputBytes: Long, val copied: Boolean, val targetMet: Boolean)
+data class CompressionPreview(val inputBytes: Long, val outputBytes: Long, val width: Int, val height: Int, val bitmap: Bitmap, val copied: Boolean, val targetMet: Boolean, val warnings: List<String> = emptyList())
+private data class PreparedCompression(val file: File, val source: CompressionSource, val inputBytes: Long, val copied: Boolean, val targetMet: Boolean)
 
 private data class EncodedFile(
     val file: File,
@@ -110,6 +111,7 @@ class MediaProcessor(private val context: Context) {
         var inputBytes = 0L
         var outputBytes = 0L
         var measuredFiles = 0
+        val compressedOriginalUris = mutableListOf<String>()
 
         job.uris.forEachIndexed { index, rawUri ->
             currentCoroutineContext().ensureActive()
@@ -120,31 +122,32 @@ class MediaProcessor(private val context: Context) {
                 val prepared = prepareCompression(uri, job)
                 try {
                     currentCoroutineContext().ensureActive()
-                    publishTempFile(
-                        temp = prepared.file,
-                        displayName = outputName(sourceName, "compressed", job.outputFormat.extension),
-                        mimeType = job.outputFormat.mimeType,
-                        album = "Compress",
-                    )
-                    succeeded++
+                    val publication = CompressionStorage(context).publish(prepared.file, prepared.source, job.keepMetadata)
+                    val warnings = publication.warnings + if (job.keepMetadata && !prepared.copied) prepared.source.metadata.preservationWarnings else emptyList()
+                    warnings.forEach { details += "$sourceName: $it" }
                     if (prepared.inputBytes >= 0) {
                         inputBytes += prepared.inputBytes
                         outputBytes += prepared.file.length()
                         measuredFiles++
                     }
                     if (!prepared.targetMet) details += "$sourceName: 해상도 또는 촬영 정보 보존으로 목표 용량을 넘겼어요."
+                    succeeded++
+                    if (warnings.isEmpty()) compressedOriginalUris += rawUri
                 } finally {
                     prepared.file.delete()
+                    prepared.source.file.delete()
                 }
             } catch (cancelled: CancellationException) {
                 throw cancelled
             } catch (error: Throwable) {
                 failed++
-                details += "${displayNameOrFallback(rawUri)}: ${error.userMessage()}"
+                com.sb.phototool.data.DiagnosticLog.record(context, "compress/file_failed", "${displayNameOrFallback(rawUri)}: ${error.userMessage().take(500)}")
+                details.add(0, "${displayNameOrFallback(rawUri)}: ${error.userMessage()}")
             }
         }
         onProgress(job.uris.size, job.uris.size, "압축 완료")
-        return ProcessingSummary(succeeded, failed, details.take(4), inputBytes, outputBytes, measuredFiles)
+        val visibleDetails = details.take(4) + if (details.size > 4) listOf("추가 안내 ${details.size - 4}건이 있어요. 원본은 그대로 보관해 주세요.") else emptyList()
+        return ProcessingSummary(succeeded, failed, visibleDetails, inputBytes, outputBytes, measuredFiles, compressedOriginalUris.distinct())
     }
 
     suspend fun previewCompression(job: CompressJob): CompressionPreview = withContext(Dispatchers.IO) {
@@ -155,35 +158,61 @@ class MediaProcessor(private val context: Context) {
             val bounds = imageBounds(Uri.fromFile(prepared.file))
             // These bounded preview pixels are owned by Compose/GC, not the export bitmap pool.
             CompressionPreview(prepared.inputBytes, prepared.file.length(), bounds.width, bounds.height,
-                decodeBitmap(Uri.fromFile(prepared.file), 768), prepared.copied, prepared.targetMet)
-        } finally { prepared.file.delete() }
+                decodeBitmap(Uri.fromFile(prepared.file), 768), prepared.copied, prepared.targetMet,
+                prepared.source.warnings + if (job.keepMetadata && !prepared.copied) prepared.source.metadata.preservationWarnings else emptyList())
+        } finally { prepared.file.delete(); prepared.source.file.delete() }
     }
 
     private fun prepareCompression(uri: Uri, job: CompressJob): PreparedCompression {
-        val sourceSize = byteSize(uri)
-        val direct = job.resizeMode == com.sb.phototool.model.ResizeMode.NONE && sourceFormat(uri) == job.outputFormat &&
-            job.keepMetadata && (job.maxBytes <= 0 || sourceSize in 0..job.maxBytes)
-        if (direct) {
-            val file = File.createTempFile("compress_copy_", ".${job.outputFormat.extension}", context.cacheDir)
-            try {
-                resolver.openInputStream(uri)?.use { input -> file.outputStream().use { input.copyTo(it) } }
-                    ?: throw UserVisibleException("사진을 읽을 수 없어요.")
-                return PreparedCompression(file, file.length(), true, true)
-            } catch (error: Throwable) { file.delete(); throw error }
-        }
-        var bitmap = decodeBitmap(uri, if (job.conflictPolicy == ConflictPolicy.PRESERVE_RESOLUTION) 8192 else 4096)
+        val source = CompressionStorage(context).stage(uri, displayName(uri), job.keepMetadata)
         try {
-            bitmap = resizeForCompression(bitmap, job)
-            if (job.outputFormat == ImageFormat.JPEG && bitmap.hasAlpha()) {
-                val flattened = flattenForJpeg(bitmap, Color.WHITE)
-                if (flattened !== bitmap) { bitmap.recycleSafely(); bitmap = flattened }
+            val format = when (source.metadata.format) { "jpeg" -> ImageFormat.JPEG; "png" -> ImageFormat.PNG; else -> ImageFormat.WEBP }
+            CompressionStorage.metadataOperation { CompressionStorage.validateName(source.name, source.metadata.format) }
+            val sourceSize = source.file.length()
+            if (job.resizeMode == com.sb.phototool.model.ResizeMode.NONE && job.keepMetadata && (job.maxBytes <= 0 || sourceSize <= job.maxBytes)) {
+                return PreparedCompression(source.file, source, sourceSize, true, true)
             }
-            val encoded = encodeBitmap(bitmap, job.outputFormat, job.maxBytes, job.conflictPolicy, "compress_")
+            if (job.keepMetadata) CompressionStorage.metadataOperation { source.metadata.checkRecompressionSupport() }
+            val maxSide = if (job.conflictPolicy == ConflictPolicy.PRESERVE_RESOLUTION) 8192 else 4096
+            // Preserve encoded pixel orientation along with the original EXIF orientation.
+            var bitmap = if (job.keepMetadata) decodeCompressionPixels(source.file, maxSide) else decodeBitmap(Uri.fromFile(source.file), maxSide)
             try {
-                if (job.keepMetadata) copyExif(uri, encoded.file)
-                return PreparedCompression(encoded.file, sourceSize, false, job.maxBytes <= 0 || encoded.file.length() <= job.maxBytes)
-            } catch (error: Throwable) { encoded.file.delete(); throw error }
-        } finally { bitmap.recycleSafely() }
+                // Keep the original encoded gain map; avoid generating a second, lossy copy in Bitmap.compress.
+                if (job.keepMetadata && source.metadata.hasGainMap && android.os.Build.VERSION.SDK_INT >= 34) bitmap.setGainmap(null)
+                bitmap = resizeForCompression(bitmap, job)
+                if (format == ImageFormat.JPEG && bitmap.hasAlpha()) {
+                    val flattened = flattenForJpeg(bitmap, Color.WHITE)
+                    if (flattened !== bitmap) { bitmap.recycleSafely(); bitmap = flattened }
+                }
+                val encodedColorSpace = bitmap.colorSpace
+                val encoded = encodeBitmap(bitmap, format, job.maxBytes, job.conflictPolicy, "compress_")
+                try {
+                    if (job.keepMetadata) {
+                        val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+                        BitmapFactory.decodeFile(encoded.file.absolutePath, bounds)
+                        if (bounds.outColorSpace != encodedColorSpace) throw UserVisibleException("압축 중 색공간이 바뀌어 원본 색상 프로파일을 그대로 기록할 수 없어요.")
+                        CompressionStorage.metadataOperation { source.metadata.restoreTo(encoded.file, bounds.outWidth, bounds.outHeight) }
+                    }
+                    return PreparedCompression(encoded.file, source, sourceSize, false, job.maxBytes <= 0 || encoded.file.length() <= job.maxBytes)
+                } catch (error: Throwable) { encoded.file.delete(); throw error }
+            } finally { bitmap.recycleSafely() }
+        } catch (error: Throwable) { source.file.delete(); throw error }
+    }
+
+    private fun decodeCompressionPixels(file: File, maxSide: Int): Bitmap {
+        val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+        BitmapFactory.decodeFile(file.absolutePath, bounds)
+        val options = BitmapFactory.Options().apply {
+            inSampleSize = calculateInSampleSize(bounds.outWidth, bounds.outHeight, maxSide)
+            inPreferredConfig = Bitmap.Config.ARGB_8888
+            inPreferredColorSpace = bounds.outColorSpace
+        }
+        val decoded = BitmapFactory.decodeFile(file.absolutePath, options) ?: throw UserVisibleException("원본 사진을 해석하지 못했어요.")
+        if (bounds.outColorSpace != null && decoded.colorSpace != bounds.outColorSpace) {
+            decoded.recycleSafely()
+            throw UserVisibleException("원본 색공간을 유지하며 사진을 읽지 못했어요.")
+        }
+        return decoded
     }
 
     private suspend fun createCollage(
@@ -612,7 +641,7 @@ class MediaProcessor(private val context: Context) {
                 candidate.delete()
 
                 if (min(working.width, working.height) <= MIN_OUTPUT_SIDE) {
-                    throw UserVisibleException("선택한 형식으로 최대 용량을 맞출 수 없어요. 더 큰 용량 또는 JPEG/WebP를 선택해 주세요.")
+                    throw UserVisibleException("원본 형식으로 최대 용량을 맞출 수 없어요. 최대 용량을 늘려 주세요.")
                 }
                 val resized = scaleBitmap(
                     working,
@@ -661,18 +690,6 @@ class MediaProcessor(private val context: Context) {
             }
         }
         return file
-    }
-
-    private fun copyExif(source: Uri, destination: File) {
-        runCatching {
-            val sourceExif = resolver.openInputStream(source)?.use(::ExifInterface) ?: return
-            val destinationExif = ExifInterface(destination)
-            EXIF_TAGS.forEach { tag ->
-                sourceExif.getAttribute(tag)?.let { destinationExif.setAttribute(tag, it) }
-            }
-            destinationExif.setAttribute(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL.toString())
-            destinationExif.saveAttributes()
-        }
     }
 
     private fun publishTempFile(temp: File, displayName: String, mimeType: String, album: String): Uri {
@@ -979,23 +996,5 @@ class MediaProcessor(private val context: Context) {
         const val MIN_QUALITY = 12
         const val MAX_QUALITY = 96
 
-        val EXIF_TAGS = listOf(
-            ExifInterface.TAG_DATETIME,
-            ExifInterface.TAG_DATETIME_ORIGINAL,
-            ExifInterface.TAG_DATETIME_DIGITIZED,
-            ExifInterface.TAG_MAKE,
-            ExifInterface.TAG_MODEL,
-            ExifInterface.TAG_SOFTWARE,
-            ExifInterface.TAG_ARTIST,
-            ExifInterface.TAG_COPYRIGHT,
-            ExifInterface.TAG_GPS_LATITUDE,
-            ExifInterface.TAG_GPS_LATITUDE_REF,
-            ExifInterface.TAG_GPS_LONGITUDE,
-            ExifInterface.TAG_GPS_LONGITUDE_REF,
-            ExifInterface.TAG_GPS_ALTITUDE,
-            ExifInterface.TAG_GPS_ALTITUDE_REF,
-            ExifInterface.TAG_GPS_DATESTAMP,
-            ExifInterface.TAG_GPS_TIMESTAMP,
-        )
     }
 }

@@ -1,6 +1,11 @@
 package com.sb.phototool.ui.compress
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
+import androidx.core.content.ContextCompat
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -44,7 +49,6 @@ fun CompressEditorScreen(uris: List<Uri>, folder: Uri?, onBack: () -> Unit, onPi
     var resize by rememberSaveable { mutableStateOf(ResizeMode.PERCENT) }
     var percent by rememberSaveable { mutableIntStateOf(70) }
     var longEdge by rememberSaveable { mutableStateOf("1920") }
-    var format by rememberSaveable { mutableStateOf(ImageFormat.JPEG) }
     var policy by rememberSaveable { mutableStateOf(ConflictPolicy.MAX_SIZE_FIRST) }
     var metadata by rememberSaveable { mutableStateOf(true) }
     var includeChildren by rememberSaveable { mutableStateOf(false) }
@@ -57,10 +61,36 @@ fun CompressEditorScreen(uris: List<Uri>, folder: Uri?, onBack: () -> Unit, onPi
     var showOriginal by remember { mutableStateOf(false) }
     val currentUri = uris.getOrNull(selected.coerceIn(0, (uris.size - 1).coerceAtLeast(0)))
     val valid = (maxKb.toLongOrNull()?.let { it in 0..102400 } == true) && (resize != ResizeMode.PIXELS || longEdge.toIntOrNull() in 1..8192)
-    val settingsKey = listOf(currentUri, maxKb, resize, percent, longEdge, format, policy, metadata)
+    val settingsKey = listOf(currentUri, maxKb, resize, percent, longEdge, policy, metadata)
     LaunchedEffect(settingsKey) { testTask?.cancel(); result = null; error = null; showOriginal = false }
     LaunchedEffect(uris.size) { selected = selected.coerceIn(0, (uris.size - 1).coerceAtLeast(0)) }
-    fun spec(inputs: List<Uri>) = CompressJob(UUID.randomUUID().toString(), inputs.map(Uri::toString), format, resize, percent, longEdge.toIntOrNull() ?: 1920, (maxKb.toLongOrNull() ?: 0) * 1024, policy, metadata)
+    fun spec(inputs: List<Uri>) = CompressJob(UUID.randomUUID().toString(), inputs.map(Uri::toString), ImageFormat.JPEG, resize, percent, longEdge.toIntOrNull() ?: 1920, (maxKb.toLongOrNull() ?: 0) * 1024, policy, metadata)
+    var pendingMetadataJob by rememberSaveable { mutableStateOf<String?>(null) }
+    var pendingMetadataPreview by rememberSaveable { mutableStateOf(false) }
+
+    fun preview(job: CompressJob) {
+        testTask = scope.launch {
+            busy = true; error = null
+            try { result = MediaProcessor(context).previewCompression(job); showOriginal = false }
+            catch (cancelled: CancellationException) { throw cancelled }
+            catch (failure: Exception) { DiagnosticLog.recordException(context, "compress/test", failure); error = failure.message ?: "테스트에 실패했어요." }
+            finally { busy = false }
+        }
+    }
+    val metadataPermission = rememberLauncherForActivityResult(RequestPermission()) { granted ->
+        val job = pendingMetadataJob?.let(JobCodec::decode) as? CompressJob
+        pendingMetadataJob = null
+        if (granted && job != null) {
+            if (pendingMetadataPreview) preview(job) else onSubmit(job)
+        } else error = "GPS를 포함한 촬영 정보를 보존하려면 위치 메타데이터 권한을 허용해 주세요. 원본은 변경하지 않았어요."
+    }
+    fun start(job: CompressJob, test: Boolean) {
+        if (job.keepMetadata && ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_MEDIA_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            pendingMetadataJob = JobCodec.encode(job)
+            pendingMetadataPreview = test
+            metadataPermission.launch(Manifest.permission.ACCESS_MEDIA_LOCATION)
+        } else if (test) preview(job) else onSubmit(job)
+    }
 
     ToolEditor("사진 압축", onBack, onPick, if (uris.isEmpty() && folder == null) "사진 선택" else "다시 선택") {
         Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -99,6 +129,7 @@ fun CompressEditorScreen(uris: List<Uri>, folder: Uri?, onBack: () -> Unit, onPi
             Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp)) {
                 Text("${formatBytes(preview.inputBytes)} → ${formatBytes(preview.outputBytes)} · ${preview.width} × ${preview.height}", color = ToolAccent)
                 ToolHint(if (preview.copied) "재압축 없이 그대로 복사됩니다." else if (!preview.targetMet) "목표 용량 초과 · 해상도 또는 촬영 정보 보존 영향" else "선택한 1장의 실제 결과입니다. 아직 저장하지 않았어요.")
+                preview.warnings.forEach { Text(it, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall) }
             }
         }
         if (uris.isNotEmpty()) LazyRow(Modifier.fillMaxWidth().padding(bottom = 8.dp).testTag("compress-photos"), contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -143,22 +174,17 @@ fun CompressEditorScreen(uris: List<Uri>, folder: Uri?, onBack: () -> Unit, onPi
                     }
                 }
                 2 -> {
-                    Choices(ImageFormat.entries, format, { it.name }, { format = it })
+                    Text("원본 형식·파일명 유지")
+                    ToolHint("JPEG · PNG · WebP / 같은 이름은 하위 폴더로 분리")
                     Choices(ConflictPolicy.entries, policy, { if (it == ConflictPolicy.MAX_SIZE_FIRST) "용량 우선" else "해상도 우선" }, { policy = it })
-                    Row(verticalAlignment = Alignment.CenterVertically) { Column(Modifier.weight(1f)) { Text("촬영 정보 보존"); ToolHint("날짜·위치 등 지원되는 EXIF 정보") }; Switch(metadata, { metadata = it }) }
+                    Row(verticalAlignment = Alignment.CenterVertically) { Column(Modifier.weight(1f)) { Text("촬영 정보 보존"); ToolHint("EXIF·GPS 원본 블록 보존 / 실패 시 안내") }; Switch(metadata, { metadata = it }) }
                     ToolHint("원본을 수정하지 않습니다. Pictures / SB PHOTO TOOL / Compress에 저장됩니다.")
                 }
             }
         }
-        ToolFooter("${uris.size}장 압축", uris.isNotEmpty() && valid && !busy && !scanning, { onSubmit(spec(uris)) }, secondary = {
+        ToolFooter("${uris.size}장 압축", uris.isNotEmpty() && valid && !busy && !scanning && pendingMetadataJob == null, { start(spec(uris), false) }, secondary = {
             OutlinedButton(enabled = currentUri != null && valid && !busy && !scanning, onClick = {
-                testTask = scope.launch {
-                    busy = true; error = null
-                    try { result = MediaProcessor(context).previewCompression(spec(listOf(currentUri!!))); showOriginal = false }
-                    catch (cancelled: CancellationException) { throw cancelled }
-                    catch (failure: Exception) { DiagnosticLog.recordException(context, "compress/test", failure); error = failure.message ?: "테스트에 실패했어요." }
-                    finally { busy = false }
-                }
+                start(spec(listOf(currentUri!!)), true)
             }, modifier = Modifier.height(50.dp)) { Text("1장 테스트") }
         })
     }

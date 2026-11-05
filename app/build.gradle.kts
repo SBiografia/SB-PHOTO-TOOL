@@ -44,6 +44,8 @@ android {
         buildConfig = true
     }
 
+    sourceSets.getByName("androidTest").assets.srcDir("src/test/resources")
+
     packaging {
         resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
     }
