@@ -14,6 +14,8 @@ import android.util.LruCache
 import android.util.Size
 import androidx.core.content.ContextCompat
 import com.sb.phototool.data.DiagnosticLog
+import com.sb.phototool.media.decodeStillBitmap
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
@@ -102,7 +104,18 @@ internal class GalleryRepository(private val context: Context) {
         return decoders.withPermit {
             withContext(Dispatchers.IO) {
                 thumbnails.get(photo.uri) ?: try {
-                    resolver.loadThumbnail(Uri.parse(photo.uri), Size(384, 384), null).also { thumbnails.put(photo.uri, it) }
+                    val uri = Uri.parse(photo.uri)
+                    val bitmap = try {
+                        resolver.loadThumbnail(uri, Size(384, 384), null)
+                    } catch (cancelled: CancellationException) {
+                        throw cancelled
+                    } catch (_: Exception) {
+                        decodeStillBitmap(context, uri, 384, 384L * 384)
+                    }
+                    thumbnails.put(photo.uri, bitmap)
+                    bitmap
+                } catch (cancelled: CancellationException) {
+                    throw cancelled
                 } catch (_: Exception) {
                     null
                 } catch (_: OutOfMemoryError) {
