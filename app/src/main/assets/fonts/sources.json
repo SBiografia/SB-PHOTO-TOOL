@@ -1,0 +1,26 @@
+[
+  {
+    "file": "nanum_gothic.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/9862abc066c9b83bf84c3e8ed1fc2d8d48f9bbf0/ofl/nanumgothic/NanumGothic-Regular.ttf",
+    "sha256": "76F45EF4A6BCFF344C837C95A7DCC26E017E38B5846D5AE0CDCB5B86BE2E2D31",
+    "bytes": 2054744
+  },
+  {
+    "file": "nanum_myeongjo.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/9862abc066c9b83bf84c3e8ed1fc2d8d48f9bbf0/ofl/nanummyeongjo/NanumMyeongjo-Regular.ttf",
+    "sha256": "7ED9E8653A8ED04285D51DC343FFEA6EB3D9C73AFC27383EA8929EE4FFD03205",
+    "bytes": 3058408
+  },
+  {
+    "file": "nanum_pen.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/9862abc066c9b83bf84c3e8ed1fc2d8d48f9bbf0/ofl/nanumpenscript/NanumPenScript-Regular.ttf",
+    "sha256": "6F0D1AB29C7894010DC88831FB7A0A51EDB79136E450344183DE5B1A8B52BD43",
+    "bytes": 3201664
+  },
+  {
+    "file": "jua.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/9862abc066c9b83bf84c3e8ed1fc2d8d48f9bbf0/ofl/jua/Jua-Regular.ttf",
+    "sha256": "769677AEF240BFC3B9965F2B50748075BFF885E6C6992FC591A3FB268279F898",
+    "bytes": 2119352
+  }
+]

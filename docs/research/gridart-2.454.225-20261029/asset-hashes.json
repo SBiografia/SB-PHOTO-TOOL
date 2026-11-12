@@ -1,0 +1,27 @@
+[
+  {
+    "Name": "border_color",
+    "Bytes": 7436,
+    "SHA256": "51ba5378252cb2a596024d56994b473a19dc739d9ed6075b8bbaadd979fb073e"
+  },
+  {
+    "Name": "filters_attrbutes",
+    "Bytes": 1668,
+    "SHA256": "be481b7d38c93672a31c68cbbe621dd1460115b2d32591a00c2788b1d5cc04af"
+  },
+  {
+    "Name": "free_style_layout",
+    "Bytes": 240608,
+    "SHA256": "6bb28f1e3c81d2cd2013cf7069c0a1a42141713647807a296b1fcd602a4071fc"
+  },
+  {
+    "Name": "layout",
+    "Bytes": 634671,
+    "SHA256": "0cc8d8bc547eac51855350cd050e82519adc6abfc8a6b33bf6fcd8c70467584f"
+  },
+  {
+    "Name": "readme",
+    "Bytes": 221,
+    "SHA256": "b409d53f41cd705ba8498907cf7fa6f1ab493a51cc3e63fca0d6ec74f2cb90fc"
+  }
+]

@@ -55,6 +55,15 @@ data class TileTransform(
     val layer: Int = 0,
     val layoutTransform: PhotoTransformState? = null,
     val freeformTransform: PhotoTransformState? = null,
+    val elementId: String = "",
+    val frameRotation: Float = 0f,
+    val shape: PhotoShape = PhotoShape.RECTANGLE,
+    val matte: Float = 0f,
+    val bottomMatte: Float = 0f,
+    val frameColor: Int = -1,
+    val locked: Boolean = false,
+    val fitInside: Boolean = false,
+    val adjustments: PhotoAdjustments = PhotoAdjustments(),
 )
 
 data class PhotoTransformState(
@@ -100,6 +109,12 @@ data class CollageJob(
     val borderColor: Int = -1,
     val mode: CollageMode = CollageMode.LAYOUT,
     val freeformCanvasAspect: Float? = null,
+    val background: CollageBackground = CollageBackground(),
+    val texts: List<CollageText> = emptyList(),
+    val decorations: List<CollageDecoration> = emptyList(),
+    val templateId: String? = null,
+    val placementLocked: Boolean = false,
+    val snapping: Boolean = true,
 ) : JobSpec {
     override val type = JobType.COLLAGE
 }
@@ -147,6 +162,7 @@ object JobCodec {
             }
 
             is CollageJob -> root.apply {
+                put("design", CollageDesignCodec.encode(job))
                 put("mode", job.mode.name)
                 job.freeformCanvasAspect?.let { put("freeformCanvasAspect", it.toDouble()) }
                 put("layoutId", job.layoutId)
@@ -175,6 +191,12 @@ object JobCodec {
                                 .put("flipHorizontal", tile.flipHorizontal)
                                 .put("flipVertical", tile.flipVertical)
                                 .put("layer", tile.layer)
+                                .put("elementId", tile.elementId)
+                                .put("frameRotation", tile.frameRotation.toDouble())
+                                .put("shape", tile.shape.name)
+                                .put("matte", tile.matte.toDouble())
+                                .put("bottomMatte", tile.bottomMatte.toDouble())
+                                .put("frameColor", tile.frameColor)
                                 .apply {
                                     tile.layoutTransform?.let { put("layoutTransform", it.toJson()) }
                                     tile.freeformTransform?.let { put("freeformTransform", it.toJson()) }
@@ -243,6 +265,12 @@ object JobCodec {
                                         it.getDouble(2).toFloat(), it.getDouble(3).toFloat())
                                 },
                                 layer = tile.optInt("layer", 0),
+                                elementId = tile.optString("elementId", ""),
+                                frameRotation = tile.optDouble("frameRotation", 0.0).toFloat(),
+                                shape = PhotoShape.entries.firstOrNull { it.name == tile.optString("shape") } ?: PhotoShape.RECTANGLE,
+                                matte = tile.optDouble("matte", 0.0).toFloat(),
+                                bottomMatte = tile.optDouble("bottomMatte", 0.0).toFloat(),
+                                frameColor = tile.optInt("frameColor", -1),
                                 layoutTransform = tile.optJSONObject("layoutTransform")?.photoTransform(),
                                 freeformTransform = tile.optJSONObject("freeformTransform")?.photoTransform(),
                             )
@@ -267,7 +295,7 @@ object JobCodec {
                 borderColor = root.optInt("borderColor", -1),
                 mode = CollageMode.valueOf(root.optString("mode", CollageMode.LAYOUT.name)),
                 freeformCanvasAspect = if (root.has("freeformCanvasAspect")) root.getDouble("freeformCanvasAspect").toFloat() else null,
-            )
+            ).let { CollageDesignCodec.decode(it, root.optJSONObject("design")) }
 
             JobType.SPLIT -> SplitJob(
                 id = id,

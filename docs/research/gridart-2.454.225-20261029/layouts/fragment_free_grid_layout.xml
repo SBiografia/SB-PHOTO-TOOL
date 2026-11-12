@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:background="@color/white_color" android:layout_width="fill_parent" android:layout_height="50.0dip">
+        <FrameLayout android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_marginLeft="15.0dip" android:layout_weight="1.0" android:layout_marginStart="15.0dip">
+            <com.camerasideas.collagemaker.activity.widget.FontTextView android:textSize="@dimen/text_fontstyle_icon_text_size" android:textColor="@color/textColor" android:ellipsize="end" android:gravity="center" android:layout_gravity="center" android:id="@id/free_background" android:background="?selectableItemBackgroundBorderless" android:layout_width="fill_parent" android:layout_height="35.0dip" android:text="@string/APKTOOL_DUPLICATE_string_0x7f120062" android:maxLines="1" />
+            <View android:layout_gravity="bottom" android:id="@id/selected_bg" android:background="@color/textColor" android:layout_width="fill_parent" android:layout_height="3.0dip" />
+        </FrameLayout>
+        <FrameLayout android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+            <com.camerasideas.collagemaker.activity.widget.FontTextView android:textSize="@dimen/text_fontstyle_icon_text_size" android:textColor="@color/textColor" android:ellipsize="end" android:gravity="center" android:layout_gravity="center" android:id="@id/free_border" android:background="?selectableItemBackgroundBorderless" android:layout_width="fill_parent" android:layout_height="35.0dip" android:text="@string/APKTOOL_DUPLICATE_string_0x7f12007b" android:maxLines="1" />
+            <View android:layout_gravity="bottom" android:id="@id/selected_border" android:background="@color/textColor" android:layout_width="fill_parent" android:layout_height="3.0dip" />
+        </FrameLayout>
+        <FrameLayout android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+            <com.camerasideas.collagemaker.activity.widget.FontTextView android:textSize="@dimen/text_fontstyle_icon_text_size" android:textColor="@color/textColor" android:ellipsize="end" android:gravity="center" android:layout_gravity="center" android:id="@id/free_ratio" android:background="?selectableItemBackgroundBorderless" android:layout_width="fill_parent" android:layout_height="35.0dip" android:text="@string/APKTOOL_DUPLICATE_string_0x7f120463" android:maxLines="1" />
+            <View android:layout_gravity="bottom" android:id="@id/selected_ratio" android:background="@color/textColor" android:layout_width="fill_parent" android:layout_height="3.0dip" />
+        </FrameLayout>
+        <androidx.appcompat.widget.AppCompatImageView android:id="@id/free_apply" android:background="@drawable/bg_common_btn_ripple" android:layout_width="60.0dip" android:layout_height="50.0dip" android:scaleType="center" app:srcCompat="@drawable/icon_yes" />
+    </LinearLayout>
+    <FrameLayout android:id="@id/grid_fragment" android:layout_width="fill_parent" android:layout_height="115.0dip" />
+</LinearLayout>

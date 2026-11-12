@@ -94,7 +94,7 @@ fun CompressEditorScreen(uris: List<Uri>, folder: Uri?, onBack: () -> Unit, onPi
 
     ToolEditor("사진 압축", onBack, onPick, if (uris.isEmpty() && folder == null) "사진 선택" else "다시 선택") {
         Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically) {
-            Text(if (uris.isEmpty()) "원본은 그대로, 사본으로 저장" else "${uris.size}장 선택 · ${selected + 1}번째 사진", Modifier.weight(1f))
+            Text(if (uris.isEmpty()) "최대 ${MAX_COMPRESSION_PHOTOS}장 · 원본은 그대로, 사본으로 저장" else "${uris.size}장 선택 · ${selected + 1}번째 사진", Modifier.weight(1f))
             IconButton(onClick = onPickFolder, enabled = !scanning) { Icon(Icons.Outlined.FolderOpen, "폴더 선택") }
             if (currentUri != null) IconButton(onClick = { onRemove(currentUri) }, enabled = !busy) { Icon(Icons.Outlined.DeleteOutline, "선택에서 제외") }
         }

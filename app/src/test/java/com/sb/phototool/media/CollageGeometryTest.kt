@@ -10,7 +10,7 @@ class CollageGeometryTest {
 
     @Test
     fun maximumSpacing_neverInvertsOrOverflowsAnyTile() {
-        for (count in 1..9) for (layout in collageLayouts(count)) {
+        for (count in 1..MAX_COLLAGE_PHOTOS) for (layout in collageLayouts(count)) {
             for ((width, height) in listOf(300f to 900f, 900f to 300f, 1080f to 1080f)) {
                 val bounds = collageTileBounds(job(count, layout.id), width, height)
                 assertEquals(count, bounds.size)

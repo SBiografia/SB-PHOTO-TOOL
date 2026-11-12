@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sb.phototool.EditorPreviewState
 import com.sb.phototool.media.*
+import com.sb.phototool.model.CollageMode
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -77,7 +78,8 @@ internal fun CollageCanvas(
                     if (bitmap != null) {
                         drawIntoCanvas { canvas ->
                             drawCollagePhoto(canvas.nativeCanvas, bitmap, rect, tile, minSide * document.cornerPercent,
-                                minSide * document.borderWidthPercent, document.borderColor)
+                                minSide * document.borderWidthPercent, document.borderColor,
+                                clipToDestination = document.mode == CollageMode.LAYOUT)
                         }
                     } else {
                         drawRect(Color(0xFF30333B), Offset(rect.left, rect.top), Size(rect.width, rect.height))

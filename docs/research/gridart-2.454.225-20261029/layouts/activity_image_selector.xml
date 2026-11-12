@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:background="@color/top_tool_bar_bg" android:layout_width="fill_parent" android:layout_height="0.0dip" app:layout_constraintBottom_toTopOf="@id/layout_ad_container" app:layout_constraintTop_toTopOf="parent">
+        <View android:id="@id/top_space" android:layout_width="fill_parent" android:layout_height="0.0dip" />
+        <include layout="@layout/image_selector_tool_bar_layout" />
+        <FrameLayout android:id="@id/folder_area" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0">
+            <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="@dimen/cm_dp_60">
+                    <androidx.appcompat.widget.AppCompatImageView android:id="@id/btn_folder" android:background="@drawable/bg_common_btn_ripple" android:layout_width="@dimen/cm_dp_56" android:layout_height="@dimen/cm_dp_56" android:scaleType="centerInside" android:tint="@color/color_262626" app:srcCompat="@drawable/icon_store_category" />
+                    <androidx.recyclerview.widget.RecyclerView android:id="@id/rv_folder" android:scrollbars="none" android:clipToPadding="false" android:layout_width="0.0dip" android:layout_height="@dimen/cm_dp_28" android:layout_weight="1.0" android:paddingEnd="@dimen/cm_dp_16" />
+                </LinearLayout>
+                <View android:id="@id/toolbar_shadow" android:background="@drawable/bg_shadow_image_selector_titlebar" android:layout_width="fill_parent" android:layout_height="3.0dip" />
+                <LinearLayout android:orientation="vertical" android:id="@id/setting_layout" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <androidx.cardview.widget.CardView android:layout_width="fill_parent" android:layout_height="@dimen/cm_dp_40" android:layout_marginTop="@dimen/cm_dp_8" android:layout_marginStart="@dimen/cm_dp_8" android:layout_marginEnd="@dimen/cm_dp_8" app:cardBackgroundColor="@color/btn_save_color" app:cardCornerRadius="@dimen/cm_dp_4">
+                        <com.camerasideas.collagemaker.activity.widget.FontTextView android:textSize="@dimen/cm_sp_14" android:textColor="#ffffffff" android:gravity="center" android:id="@id/btn_select_all" android:background="?selectableItemBackgroundBorderless" android:layout_width="fill_parent" android:layout_height="fill_parent" android:text="@string/APKTOOL_DUPLICATE_string_0x7f12003f" app:text_font="Roboto_Regular" />
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView android:layout_width="fill_parent" android:layout_height="@dimen/cm_dp_40" android:layout_marginTop="@dimen/cm_dp_6" android:layout_marginBottom="@dimen/cm_dp_12" android:layout_marginStart="@dimen/cm_dp_8" android:layout_marginEnd="@dimen/cm_dp_8" app:cardBackgroundColor="#ffeeeeee" app:cardCornerRadius="@dimen/cm_dp_4">
+                        <com.camerasideas.collagemaker.activity.widget.FontTextView android:textSize="@dimen/cm_sp_14" android:textColor="#ff5c8dfe" android:gravity="center" android:id="@id/btn_select_more" android:background="?selectableItemBackgroundBorderless" android:layout_width="fill_parent" android:layout_height="fill_parent" android:text="@string/APKTOOL_DUPLICATE_string_0x7f1203c3" app:text_font="Roboto_Regular" />
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+                <FrameLayout android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0">
+                    <com.camerasideas.collagemaker.activity.gallery.ui.GalleryMultiSelectGroupView android:id="@id/gallery_view" android:layout_width="fill_parent" android:layout_height="fill_parent" app:gallery_header_height="0.0dip" app:gallery_show_category="false" />
+                    <com.camerasideas.collagemaker.activity.widget.FontTextView android:textSize="@dimen/sp_12" android:textColor="@color/white_color" android:layout_gravity="center_horizontal" android:id="@id/hint_long_press" android:background="@drawable/bg_long_press_hint" android:paddingTop="@dimen/dp_5" android:paddingBottom="@dimen/dp_5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/cm_dp_5" android:text="@string/APKTOOL_DUPLICATE_string_0x7f1203c2" android:paddingStart="@dimen/dp_8" android:paddingEnd="@dimen/dp_8" android:layout_marginStart="@dimen/cm_dp_8" android:layout_marginEnd="@dimen/cm_dp_8" />
+                    <androidx.appcompat.widget.LinearLayoutCompat android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                        <FrameLayout android:layout_gravity="end" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0">
+                            <com.camerasideas.collagemaker.activity.widget.FastScrollView android:layout_gravity="end" android:id="@id/fastscrollview" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_weight="1.0" />
+                            <View android:layout_gravity="bottom" android:background="@drawable/img_selector_shadow" android:layout_width="fill_parent" android:layout_height="12.0dip" />
+                        </FrameLayout>
+                        <androidx.constraintlayout.widget.ConstraintLayout android:layout_gravity="bottom" android:orientation="vertical" android:id="@id/layout_multiple" android:background="@color/tools_menu_bg_color" android:focusable="true" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                            <RelativeLayout android:layout_width="fill_parent" android:layout_height="@dimen/cm_dp_40" app:layout_constraintTop_toTopOf="parent">
+                                <com.camerasideas.collagemaker.activity.widget.FontTextView android:textSize="@dimen/cm_sp_14" android:textColor="@color/color_262626" android:gravity="start|center" android:id="@id/btn_selected_hint" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/cm_dp_16" android:text="@string/APKTOOL_DUPLICATE_string_0x7f1203c6" android:maxLines="1" android:layout_marginStart="@dimen/cm_dp_16" android:layout_alignParentStart="true" app:text_font="Roboto_Medium" />
+                                <com.camerasideas.collagemaker.activity.widget.FontTextView android:textSize="14.0sp" android:textColor="@color/color_262626" android:gravity="center" android:id="@id/tv_selected_count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignBaseline="@id/btn_selected_hint" android:layout_alignBottom="@id/btn_selected_hint" android:layout_marginStart="15.0dip" android:layout_toEndOf="@id/btn_selected_hint" app:text_font="Roboto_Bold" />
+                            </RelativeLayout>
+                            <androidx.recyclerview.widget.RecyclerView android:id="@id/selected_recyclerView" android:scrollbars="none" android:layout_width="fill_parent" android:layout_height="150.0dip" android:divider="@color/transparent_color" android:layout_marginStart="@dimen/cm_dp_9" app:layout_constraintTop_toTopOf="parent" />
+                            <androidx.appcompat.widget.AppCompatImageView android:id="@id/btn_clear" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/dp_6" android:layout_centerVertical="true" android:layout_marginEnd="@dimen/cm_dp_10" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" app:srcCompat="@drawable/icon_selector_clear" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                    <FrameLayout android:layout_gravity="bottom" android:id="@id/hint_layout" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                        <com.camerasideas.collagemaker.activity.widget.NewFeatureHintView android:layout_gravity="bottom" android:id="@id/hint_selector_photo" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="150.0dip" app:layout="@layout/hint_image_selector" />
+                    </FrameLayout>
+                </FrameLayout>
+            </LinearLayout>
+            <FrameLayout android:id="@id/folder_popup_layout" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                <View android:id="@id/folder_popup_scrim" android:background="@color/transparent_color" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+                <androidx.recyclerview.widget.RecyclerView android:id="@id/rv_folder_popup" android:background="@drawable/bg_popup_white_r10" android:paddingTop="@dimen/cm_dp_8" android:paddingBottom="@dimen/cm_dp_8" android:scrollbars="none" android:clipToPadding="false" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/cm_dp_16" android:layout_marginBottom="@dimen/cm_dp_16" android:overScrollMode="never" android:layout_marginStart="@dimen/cm_dp_56" android:layout_marginEnd="@dimen/cm_dp_56" android:elevation="@dimen/cm_dp_2" />
+            </FrameLayout>
+        </FrameLayout>
+        <View android:id="@id/bottom_padding" android:layout_width="fill_parent" android:layout_height="0.0dip" />
+    </LinearLayout>
+    <FrameLayout android:id="@id/layout_ad_container" android:background="@color/tools_menu_bg_color" android:layout_width="fill_parent" android:layout_height="wrap_content" app:layout_constraintBottom_toBottomOf="parent">
+        <LinearLayout android:gravity="center" android:layout_gravity="center|top" android:orientation="horizontal" android:id="@id/ad_layout" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/ad_native_margin_top" android:minHeight="@dimen/ad_native_layout_height" />
+    </FrameLayout>
+    <FrameLayout android:id="@id/full_screen_fragment_container" android:layout_width="0.0dip" android:layout_height="0.0dip" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" />
+    <FrameLayout android:id="@id/move_layout" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+    <include android:id="@id/move_item_guide_mask" android:visibility="gone" layout="@layout/common_tips_mask" />
+</androidx.constraintlayout.widget.ConstraintLayout>

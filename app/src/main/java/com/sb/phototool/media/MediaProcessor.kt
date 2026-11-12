@@ -21,7 +21,9 @@ import android.provider.MediaStore
 import android.provider.OpenableColumns
 import androidx.exifinterface.media.ExifInterface
 import com.sb.phototool.model.CanvasRatio
+import com.sb.phototool.model.BackgroundKind
 import com.sb.phototool.model.CollageJob
+import com.sb.phototool.model.CollageMode
 import com.sb.phototool.model.CompressJob
 import com.sb.phototool.model.ConflictPolicy
 import com.sb.phototool.model.ExportSize
@@ -219,34 +221,50 @@ class MediaProcessor(private val context: Context) {
         job: CollageJob,
         onProgress: suspend (Int, Int, String) -> Unit,
     ): ProcessingSummary {
-        require(job.tiles.size in 1..MAX_COLLAGE_PHOTOS) { "콜라주는 사진 1~9장이 필요해요." }
+        require(job.tiles.size in 1..MAX_COLLAGE_PHOTOS && job.tiles.any { it.uri.isNotBlank() }) { "콜라주는 사진 1~15장이 필요해요." }
         onProgress(0, 1, "콜라주 캔버스 준비 중")
-        val firstBounds = imageBounds(Uri.parse(job.tiles.first().uri))
+        val firstBounds = imageBounds(Uri.parse(job.tiles.first { it.uri.isNotBlank() }.uri))
         val (width, height) = exportDimensions(job.exportSize, job.ratio, firstBounds)
         val canvasBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         try {
-            Canvas(canvasBitmap).drawColor(job.backgroundColor)
+            val sceneCanvas = Canvas(canvasBitmap)
+            val bg = job.background
+            var backgroundBitmap: Bitmap? = null
+            try {
+                if (bg.kind == BackgroundKind.PHOTO || bg.kind == BackgroundKind.BLUR) {
+                    require(bg.uri.isNotBlank()) { "배경 사진을 선택해 주세요." }
+                    val decoded = decodeBitmap(Uri.parse(bg.uri), if (bg.kind == BackgroundKind.BLUR) 320 else max(width, height))
+                    backgroundBitmap = if (bg.kind == BackgroundKind.BLUR) {
+                        try { blurredCollageBackground(decoded, bg.blur) } finally { decoded.recycleSafely() }
+                    } else decoded
+                }
+                drawCollageBackground(sceneCanvas, job, width.toFloat(), height.toFloat(), backgroundBitmap)
+            } finally { backgroundBitmap?.recycleSafely() }
             val radius = min(width, height) * job.cornerPercent.coerceIn(0f, 0.25f)
             val border = min(width, height) * job.borderWidthPercent.coerceIn(0f, .02f)
             val destinations = collageTileBounds(job, width.toFloat(), height.toFloat())
-            collagePaintOrder(job).forEachIndexed { progress, index ->
-                val destination = destinations[index]
-                val tile = job.tiles[index]
+            val elements = collageDesignElements(job).sortedBy { it.layer }
+            elements.forEachIndexed { progress, element ->
                 currentCoroutineContext().ensureActive()
-                onProgress(progress, job.tiles.size, "콜라주 사진 ${progress + 1}/${job.tiles.size} 배치 중")
-                val bitmap = decodeBitmap(Uri.parse(tile.uri), maxSide = max(width, height))
-                try {
-                    drawCollagePhoto(
-                        canvas = Canvas(canvasBitmap),
-                        bitmap = bitmap,
-                        destination = destination,
-                        tile = tile,
-                        cornerRadius = radius,
-                        borderWidth = border,
-                        borderColor = job.borderColor,
-                    )
-                } finally {
-                    bitmap.recycleSafely()
+                onProgress(progress, elements.size, "콜라주 요소 " + (progress + 1) + "/" + elements.size + " 배치 중")
+                when (element.kind) {
+                    DesignElementKind.PHOTO -> {
+                        val tile = job.tiles[element.index]
+                        if (tile.uri.isNotBlank()) {
+                            val destination = destinations[element.index]
+                            val source = imageBounds(Uri.parse(tile.uri))
+                            val placement = photoPlacement(source.width, source.height, destination.width, destination.height, tile)
+                            val decodeEdge = kotlin.math.ceil(max(placement.width, placement.height)).toInt().coerceIn(1, MAX_STATIC_LONG_EDGE)
+                            val bitmap = decodeStillBitmap(context, Uri.parse(tile.uri), decodeEdge, decodeEdge.toLong() * decodeEdge)
+                            try { drawCollagePhoto(sceneCanvas, bitmap, destination, tile, radius, border, job.borderColor,
+                                clipToDestination = job.mode == CollageMode.LAYOUT) }
+                            finally { bitmap.recycleSafely() }
+                        }
+                    }
+                    DesignElementKind.TEXT -> job.texts[element.index].let {
+                        drawCollageText(sceneCanvas, it, width.toFloat(), height.toFloat(), CollageFonts.get(context, it.font))
+                    }
+                    DesignElementKind.DECORATION -> drawCollageDecoration(sceneCanvas, job.decorations[element.index], width.toFloat(), height.toFloat())
                 }
             }
             onProgress(1, 1, "콜라주 저장 중")
@@ -758,20 +776,9 @@ class MediaProcessor(private val context: Context) {
     internal fun sourceAspectRatio(uri: Uri): Float = imageBounds(uri).let { it.width.toFloat() / it.height }
 
     private fun imageBounds(uri: Uri): ImageBounds {
-        val options = BitmapFactory.Options().apply { inJustDecodeBounds = true }
-        resolver.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, options) }
-        if (options.outWidth <= 0 || options.outHeight <= 0) {
-            throw UserVisibleException("지원하지 않는 이미지 형식이에요.")
-        }
-        return when (exifOrientation(uri)) {
-            ExifInterface.ORIENTATION_ROTATE_90,
-            ExifInterface.ORIENTATION_ROTATE_270,
-            ExifInterface.ORIENTATION_TRANSPOSE,
-            ExifInterface.ORIENTATION_TRANSVERSE
-            -> ImageBounds(options.outHeight, options.outWidth)
-
-            else -> ImageBounds(options.outWidth, options.outHeight)
-        }
+        val size = try { readStillImageBounds(context, uri) }
+        catch (_: Exception) { throw UserVisibleException("지원하지 않는 이미지 형식이에요.") }
+        return ImageBounds(size.width, size.height)
     }
 
     private fun exifOrientation(uri: Uri): Int = runCatching {

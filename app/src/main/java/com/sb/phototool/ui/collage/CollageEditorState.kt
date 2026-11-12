@@ -44,6 +44,11 @@ internal class CollageEditorState(initial: CollageJob) {
         if (start != document) rememberPrevious(start)
     }
 
+    fun cancelGesture() {
+        gestureStart?.let { document = it }
+        gestureStart = null
+    }
+
     fun undo() {
         finishGesture()
         if (past.isEmpty()) return
@@ -66,12 +71,17 @@ internal class CollageEditorState(initial: CollageJob) {
 
     companion object {
         val StateSaver = Saver<CollageEditorState, String>(
-            save = { JobCodec.encode(it.document) },
-            restore = { CollageEditorState(JobCodec.decode(it) as CollageJob) },
+            save = { org.json.JSONObject().put("document", JobCodec.encode(it.document)).put("gesture", it.gestureStart?.let(JobCodec::encode)).toString() },
+            restore = { saved ->
+                val json = org.json.JSONObject(saved)
+                CollageEditorState(JobCodec.decode(if (json.has("document")) json.getString("document") else saved) as CollageJob).also { state ->
+                    state.gestureStart = json.optString("gesture").takeIf { it.isNotBlank() }?.let { JobCodec.decode(it) as CollageJob }
+                }
+            },
         )
 
         fun create(uris: List<String>) = CollageEditorState(CollageJob(
-            id = "draft", tiles = uris.map(::TileTransform), ratio = CanvasRatio.SQUARE,
+            id = "draft", tiles = uris.mapIndexed { index, uri -> TileTransform(uri, elementId = "photo-" + index) }, ratio = CanvasRatio.SQUARE,
             gapPercent = .006f, cornerPercent = 0f, backgroundColor = -1, exportSize = ExportSize(),
         ))
     }

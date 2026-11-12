@@ -8,6 +8,8 @@ import android.provider.MediaStore
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.sb.phototool.ui.gallery.GalleryRepository
+import com.sb.phototool.ui.gallery.GalleryPhoto
+import com.sb.phototool.ui.gallery.GallerySort
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Test
@@ -30,7 +32,10 @@ class GalleryRepositoryTest {
                     put(MediaStore.Images.Media.IS_PENDING, 1)
                 }))
                 inserted += uri
-                resolver.openOutputStream(uri)!!.use { bitmap.compress(Bitmap.CompressFormat.JPEG, 90, it) }
+                resolver.openOutputStream(uri)!!.use {
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, it)
+                    it.write(ByteArray((index % 5) * 64))
+                }
                 resolver.update(uri, ContentValues().apply {
                     put(MediaStore.Images.Media.IS_PENDING, 0)
                     if (Build.VERSION.SDK_INT >= 30) put(MediaStore.Images.Media.IS_FAVORITE, if (index < 2) 1 else 0)
@@ -46,7 +51,22 @@ class GalleryRepositoryTest {
             assertEquals(3, second.photos.size)
             assertFalse(second.hasMore)
             assertEquals(inserted.map(Uri::toString).toSet(), (first.photos + second.photos).map { it.uri }.toSet())
+            val expectedBySize = (first.photos + second.photos).sortedWith(compareByDescending<GalleryPhoto> { it.sizeBytes }.thenByDescending { it.id })
+            assertTrue(expectedBySize.first().sizeBytes > expectedBySize.last().sizeBytes)
+            val largestFirst = repository.page(bucket.id, false, null, GallerySort.SIZE_DESC)
+            val largestSecond = repository.page(bucket.id, false, largestFirst.photos.last(), GallerySort.SIZE_DESC)
+            assertEquals(expectedBySize, largestFirst.photos + largestSecond.photos)
+            assertTrue(largestFirst.hasMore)
+            assertFalse(largestSecond.hasMore)
+            val bulk = repository.page(bucket.id, false, null, GallerySort.SIZE_DESC, pageSize = 100)
+            assertEquals(expectedBySize.take(100), bulk.photos)
+            assertTrue(bulk.hasMore)
             if (Build.VERSION.SDK_INT >= 30) assertEquals(2, repository.page(bucket.id, true, null).photos.size)
+            if (Build.VERSION.SDK_INT >= 30) {
+                val favoriteSizes = repository.page(bucket.id, true, null, GallerySort.SIZE_DESC)
+                assertEquals(2, favoriteSizes.photos.size)
+                assertTrue(favoriteSizes.photos[0].sizeBytes > favoriteSizes.photos[1].sizeBytes)
+            }
             val removed = first.photos.first()
             resolver.delete(Uri.parse(removed.uri), null, null)
             inserted.remove(Uri.parse(removed.uri))

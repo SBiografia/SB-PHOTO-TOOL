@@ -36,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -60,6 +61,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sb.phototool.data.DiagnosticLog
+import com.sb.phototool.ui.editor.formatBytes
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -71,12 +73,23 @@ import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun PhotoGalleryPicker(maxSelection: Int, onDismiss: () -> Unit, onConfirm: (List<Uri>) -> Unit) {
+internal fun PhotoGalleryPicker(maxSelection: Int, onDismiss: () -> Unit, onConfirm: (List<Uri>) -> Unit,
+                               compressionTools: Boolean = false) {
+    Dialog(onDismissRequest = onDismiss, properties = DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = true)) {
+        PhotoGalleryContent(maxSelection, onDismiss, onConfirm, compressionTools = compressionTools)
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+internal fun PhotoGalleryContent(maxSelection: Int, onDismiss: () -> Unit, onConfirm: (List<Uri>) -> Unit,
+    modifier: Modifier = Modifier, embedded: Boolean = false, onSinglePhoto: ((Uri) -> Unit)? = null,
+    compressionTools: Boolean = false) {
     val context = LocalContext.current
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     val scope = rememberCoroutineScope()
     val repository = remember(context) { GalleryRepository(context.applicationContext) }
-    val selection: GallerySelection = viewModel(key = "photo-gallery-selection")
+    val selection: GallerySelection = viewModel(key = if (embedded) "template-photo-gallery-selection" else "photo-gallery-selection")
     val session = rememberSaveable { UUID.randomUUID().toString() }
     LaunchedEffect(session, maxSelection) { selection.beginSession(session, maxSelection) }
     val selectedPhotos = selection.photos.toList()
@@ -86,6 +99,8 @@ internal fun PhotoGalleryPicker(maxSelection: Int, onDismiss: () -> Unit, onConf
     var albumId by rememberSaveable { mutableStateOf<String?>(null) }
     var albumName by rememberSaveable { mutableStateOf("모든 사진") }
     var favorites by rememberSaveable { mutableStateOf(false) }
+    var sort by rememberSaveable { mutableStateOf(GallerySort.RECENT) }
+    var sortMenu by remember { mutableStateOf(false) }
     var albumSheet by rememberSaveable { mutableStateOf(false) }
     var busy by remember { mutableStateOf(false) }
     var message by remember { mutableStateOf<String?>(null) }
@@ -128,6 +143,18 @@ internal fun PhotoGalleryPicker(maxSelection: Int, onDismiss: () -> Unit, onConf
     fun close() { selection.photos.clear(); onDismiss() }
     fun select(photo: GalleryPhoto, selected: Boolean? = null) {
         if (busy) return
+        if (onSinglePhoto != null) {
+            busy = true
+            scope.launch {
+                try {
+                    if (repository.unavailable(listOf(photo)).isEmpty()) {
+                        message = null
+                        onSinglePhoto(Uri.parse(photo.uri))
+                    } else message = "사진을 읽지 못했어요. 다른 사진을 선택해 주세요."
+                } finally { busy = false }
+            }
+            return
+        }
         val accepted = if (selected == null) selection.toggle(photo) else selection.setSelected(photo, selected)
         message = if (!accepted) "최대 ${maxSelection}장까지 선택할 수 있어요. 선택한 사진을 해제해 주세요." else null
     }
@@ -151,7 +178,33 @@ internal fun PhotoGalleryPicker(maxSelection: Int, onDismiss: () -> Unit, onConf
         }
     }
 
-    val dark = isSystemInDarkTheme()
+    fun selectAll() {
+        if (busy) return
+        if (selection.photos.size >= maxSelection) {
+            message = "최대 ${maxSelection}장이 선택되어 있어요. 다른 사진을 고르려면 선택을 해제해 주세요."
+            return
+        }
+        busy = true
+        scope.launch {
+            try {
+                val page = repository.page(albumId, favorites, null, sort, pageSize = maxSelection)
+                val added = selection.selectAll(page.photos)
+                message = when {
+                    page.photos.isEmpty() -> "현재 앨범·필터에 선택할 사진이 없어요."
+                    added == 0 -> "현재 앨범·필터의 사진이 모두 선택되어 있어요."
+                    page.hasMore || selection.photos.size == maxSelection ->
+                        "${sort.label}으로 ${added}장을 추가했어요. 한 번에 최대 ${maxSelection}장까지 선택할 수 있어요."
+                    else -> "현재 앨범·필터의 사진 ${added}장을 추가했어요."
+                }
+            } catch (cancelled: CancellationException) { throw cancelled }
+            catch (failure: Exception) {
+                DiagnosticLog.recordException(context, "gallery/select_all", failure)
+                message = "사진을 읽지 못했어요. 전체 선택을 다시 눌러 주세요."
+            } finally { busy = false }
+        }
+    }
+
+    val dark = if (embedded) MaterialTheme.colorScheme.background.luminance() < .5f else isSystemInDarkTheme()
     val scheme = if (dark) darkColorScheme(
         primary = Color(0xFF80A7FF), surface = Color(0xFF1C1C1E), background = Color(0xFF1C1C1E),
         secondaryContainer = Color(0xFF253757), onSecondaryContainer = Color(0xFFDBE6FF),
@@ -161,18 +214,19 @@ internal fun PhotoGalleryPicker(maxSelection: Int, onDismiss: () -> Unit, onConf
         secondaryContainer = Color(0xFFE8F0FF), onSecondaryContainer = Color(0xFF153460),
     )
     val viewport = visibleWindowSize()
-    Dialog(onDismissRequest = { if (!busy) close() }, properties = DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = true)) {
+    Box(modifier) {
         MaterialTheme(colorScheme = scheme) {
-            Surface(Modifier.size(viewport).testTag("photo_gallery")) {
-                Column(Modifier.fillMaxSize().safeDrawingPadding()) {
+            Surface((if (embedded) Modifier.fillMaxSize() else Modifier.size(viewport)).testTag("photo_gallery")) {
+                Column(Modifier.fillMaxSize().then(if (embedded) Modifier else Modifier.safeDrawingPadding())) {
                     Row(Modifier.fillMaxWidth().heightIn(min = 56.dp).padding(horizontal = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-                        IconButton(onClick = ::close, enabled = !busy) { Icon(Icons.Outlined.Close, "사진 선택 취소") }
+                        if (!embedded) IconButton(onClick = ::close, enabled = !busy) { Icon(Icons.Outlined.Close, "사진 선택 취소") }
                         TextButton(onClick = { albumSheet = true }, enabled = access != PhotoAccess.NONE && !busy, modifier = Modifier.weight(1f).testTag("gallery_albums")) {
                             Text(albumName, fontSize = 18.sp, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f, fill = false))
                             Icon(Icons.Outlined.ExpandMore, null)
                         }
-                        TextButton(onClick = ::confirm, enabled = selection.photos.isNotEmpty() && !busy, modifier = Modifier.testTag("gallery_confirm")) {
+                        TextButton(onClick = { if (embedded) close() else confirm() }, enabled = (embedded || selection.photos.isNotEmpty()) && !busy, modifier = Modifier.testTag("gallery_confirm")) {
                             if (busy) CircularProgressIndicator(Modifier.size(20.dp), strokeWidth = 2.dp)
+                            else if (embedded) Icon(Icons.Outlined.Check, "사진 선택 완료")
                             else Text("확인 (${selection.photos.size})", fontWeight = FontWeight.SemiBold)
                         }
                     }
@@ -192,22 +246,49 @@ internal fun PhotoGalleryPicker(maxSelection: Int, onDismiss: () -> Unit, onConf
                                 TextButton(onClick = { permissions.launch(photoPermissions()) }, enabled = !busy) { Text("사진 더 허용", fontSize = 12.sp) }
                             }
                         }
-                        if (Build.VERSION.SDK_INT >= 30) {
+                        if (Build.VERSION.SDK_INT >= 30 && !embedded) {
                             Row(Modifier.fillMaxWidth().padding(horizontal = 12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                 FilterChip(!favorites, { favorites = false }, label = { Text("사진") }, enabled = !busy)
                                 FilterChip(favorites, { favorites = true }, label = { Text("즐겨찾기") }, enabled = !busy)
                             }
                         }
-                        Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                            Text(if (maxSelection == 1) "사진 1장 선택" else "길게 누르고 드래그해 여러 장 선택", fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                            Text("최근 저장순", fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        if (compressionTools) {
+                            Row(Modifier.fillMaxWidth().padding(horizontal = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                                TextButton(onClick = ::selectAll, enabled = !busy, modifier = Modifier.testTag("gallery_select_all")) { Text("전체 선택") }
+                                TextButton(onClick = { selection.photos.clear(); message = null },
+                                    enabled = selectedPhotos.isNotEmpty() && !busy, modifier = Modifier.testTag("gallery_clear_all")) { Text("전체 해제") }
+                                Spacer(Modifier.weight(1f))
+                                Box {
+                                    TextButton(onClick = { sortMenu = true }, enabled = !busy, modifier = Modifier.testTag("gallery_sort")) {
+                                        Text(sort.label)
+                                        Icon(Icons.Outlined.ExpandMore, "정렬 변경")
+                                    }
+                                    DropdownMenu(expanded = sortMenu, onDismissRequest = { sortMenu = false }) {
+                                        GallerySort.entries.forEach { option ->
+                                            DropdownMenuItem(text = { Text(option.label) }, onClick = {
+                                                sort = option; sortMenu = false; message = null
+                                            }, modifier = Modifier.testTag("gallery_sort_${option.name}"),
+                                                trailingIcon = { if (sort == option) Icon(Icons.Outlined.Check, "선택한 정렬") })
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if (!embedded) Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+                            Text(when {
+                                compressionTools -> "최대 ${maxSelection}장 · 길게 눌러 드래그 선택"
+                                maxSelection == 1 -> "사진 1장 선택"
+                                else -> "길게 누르고 드래그해 여러 장 선택"
+                            }, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            if (!compressionTools) Text("최근 저장순", fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                         if (message != null) Text(message!!, Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 6.dp).testTag("gallery_message"), color = MaterialTheme.colorScheme.primary, fontSize = 12.sp)
                         val expectedPhotoCount = if (favorites) null else albumResult?.getOrNull()?.let { albums ->
                             if (albumId == null) albums.sumOf { it.count } else albums.firstOrNull { it.id == albumId }?.count
                         }
-                        key(albumId, favorites, access, revision) {
-                            GalleryGrid(repository, albumId, favorites, expectedPhotoCount, selection, maxSelection > 1 && !busy, !busy, ::select, Modifier.weight(1f))
+                        key(albumId, favorites, access, revision, sort) {
+                            GalleryGrid(repository, albumId, favorites, expectedPhotoCount, selection, !embedded && maxSelection > 1 && !busy, !busy, ::select, Modifier.weight(1f),
+                                columns = if (embedded) 4 else 3, showDates = !embedded && sort == GallerySort.RECENT, showSelection = !embedded, sort = sort)
                         }
                         if (selection.photos.isNotEmpty()) {
                             HorizontalDivider()
@@ -282,7 +363,7 @@ private sealed interface GalleryEntry {
 }
 
 @Composable
-private fun GalleryGrid(repository: GalleryRepository, albumId: String?, favorites: Boolean, expectedPhotoCount: Int?, selection: GallerySelection, allowDrag: Boolean, enabled: Boolean, select: (GalleryPhoto, Boolean?) -> Unit, modifier: Modifier) {
+private fun GalleryGrid(repository: GalleryRepository, albumId: String?, favorites: Boolean, expectedPhotoCount: Int?, selection: GallerySelection, allowDrag: Boolean, enabled: Boolean, select: (GalleryPhoto, Boolean?) -> Unit, modifier: Modifier, columns: Int = 3, showDates: Boolean = true, showSelection: Boolean = true, sort: GallerySort = GallerySort.RECENT) {
     val context = LocalContext.current
     val photos = remember { mutableStateListOf<GalleryPhoto>() }
     var request by remember { mutableIntStateOf(0) }
@@ -294,7 +375,7 @@ private fun GalleryGrid(repository: GalleryRepository, albumId: String?, favorit
     LaunchedEffect(request) {
         loading = true; error = false
         try {
-            val page = repository.page(albumId, favorites, photos.lastOrNull())
+            val page = repository.page(albumId, favorites, photos.lastOrNull(), sort)
             val knownUris = photos.mapTo(mutableSetOf()) { it.uri }
             photos.addAll(page.photos.filter { knownUris.add(it.uri) })
             hasMore = page.hasMore || (currentExpectedPhotoCount?.let { photos.size < it } == true)
@@ -308,13 +389,13 @@ private fun GalleryGrid(repository: GalleryRepository, albumId: String?, favorit
     LaunchedEffect(expectedPhotoCount, loading) {
         if (!loading && !favorites && expectedPhotoCount != null && photos.size < expectedPhotoCount) hasMore = true
     }
-    val entries = remember(photos.toList()) {
+    val entries = remember(photos.toList(), showDates) {
         val format = DateTimeFormatter.ofPattern("yyyy년 M월 d일 (E)", Locale.KOREAN).withZone(ZoneId.systemDefault())
         buildList<GalleryEntry> {
             var previous = ""
             for (photo in photos) {
                 val day = format.format(Instant.ofEpochSecond(photo.addedSeconds))
-                if (day != previous) { add(GalleryEntry.Day(day)); previous = day }
+                if (day != previous && showDates) { add(GalleryEntry.Day(day)); previous = day }
                 add(GalleryEntry.Photo(photo))
             }
         }
@@ -366,7 +447,7 @@ private fun GalleryGrid(repository: GalleryRepository, albumId: String?, favorit
     }
     Box(modifier.fillMaxWidth()) {
         LazyVerticalGrid(
-            columns = GridCells.Fixed(3), state = grid,
+            columns = GridCells.Fixed(columns), state = grid,
             horizontalArrangement = Arrangement.spacedBy(2.dp), verticalArrangement = Arrangement.spacedBy(2.dp),
             modifier = Modifier.fillMaxSize().testTag("gallery_grid").pointerInput(allowDrag) {
                 if (allowDrag) detectDragGesturesAfterLongPress(
@@ -389,10 +470,13 @@ private fun GalleryGrid(repository: GalleryRepository, albumId: String?, favorit
                         Box(Modifier.aspectRatio(1f).testTag("gallery_photo_${entry.photo.id}").semantics {
                             selected = order > 0
                             contentDescription = "${entry.photo.name}, ${if (order > 0) "${order}번째 선택" else "선택 안 됨"}"
-                        }.clickable(enabled = enabled, role = Role.Checkbox) { select(entry.photo, null) }) {
+                        }.clickable(enabled = enabled, role = if (showSelection) Role.Checkbox else Role.Button) { select(entry.photo, null) }) {
                             GalleryThumbnail(repository, entry.photo)
+                            if (sort == GallerySort.SIZE_DESC) Text(formatBytes(entry.photo.sizeBytes),
+                                Modifier.align(Alignment.BottomStart).background(Color.Black.copy(alpha = .65f)).padding(horizontal = 6.dp, vertical = 2.dp),
+                                color = Color.White, fontSize = 11.sp)
                             if (order > 0) Box(Modifier.matchParentSize().border(3.dp, MaterialTheme.colorScheme.primary))
-                            SelectionBadge(order, Modifier.align(Alignment.TopEnd).padding(6.dp))
+                            if (showSelection) SelectionBadge(order, Modifier.align(Alignment.TopEnd).padding(6.dp))
                         }
                     }
                 }

@@ -17,6 +17,14 @@ internal class GallerySelection : ViewModel() {
 
     fun toggle(photo: GalleryPhoto): Boolean = setSelected(photo, photos.none { it.uri == photo.uri })
 
+    fun selectAll(candidates: List<GalleryPhoto>): Int {
+        val knownUris = photos.mapTo(mutableSetOf()) { it.uri }
+        val remaining = (limit - photos.size).coerceAtLeast(0)
+        val added = candidates.asSequence().filter { knownUris.add(it.uri) }.take(remaining).toList()
+        photos.addAll(added)
+        return added.size
+    }
+
     fun setSelected(photo: GalleryPhoto, select: Boolean): Boolean {
         val index = photos.indexOfFirst { it.uri == photo.uri }
         if (!select) {

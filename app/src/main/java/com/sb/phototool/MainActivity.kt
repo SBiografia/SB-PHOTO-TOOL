@@ -1,6 +1,7 @@
 package com.sb.phototool
 
 import android.Manifest
+import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -8,15 +9,17 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
+import android.provider.MediaStore
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts.OpenDocumentTree
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
+import androidx.activity.result.contract.ActivityResultContracts.StartIntentSenderForResult
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -32,6 +35,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -83,19 +87,25 @@ import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.sb.phototool.data.DiagnosticLog
 import com.sb.phototool.data.JobStore
+import com.sb.phototool.data.CompressionOriginalStore
 import com.sb.phototool.media.MAX_COLLAGE_PHOTOS
-import com.sb.phototool.media.previewDimensions
+import com.sb.phototool.media.decodeStillBitmap
+import com.sb.phototool.media.CompressionOriginalArchive
 import com.sb.phototool.model.JobSpec
 import com.sb.phototool.model.JobCodec
+import com.sb.phototool.model.CompressJob
 import com.sb.phototool.worker.ToolboxWorker
 import com.sb.phototool.ui.collage.CollageEditorScreen
 import com.sb.phototool.ui.compress.CompressEditorScreen
+import com.sb.phototool.ui.compress.MAX_COMPRESSION_PHOTOS
+import com.sb.phototool.ui.compress.CompressionOriginalAction
 import com.sb.phototool.ui.split.SplitEditorScreen
 import com.sb.phototool.ui.gif.GifEditorScreen
 import com.sb.phototool.ui.gallery.PhotoGalleryPicker
 import com.sb.phototool.ui.editor.ToolSelectionState
 import com.sb.phototool.ui.editor.formatBytes
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.collectLatest
@@ -131,6 +141,60 @@ private fun ToolboxApp() {
     var activeWorkId by rememberSaveable { mutableStateOf<UUID?>(null) }
     var activeJobId by rememberSaveable { mutableStateOf<String?>(null) }
     var transientMessage by remember { mutableStateOf<String?>(null) }
+    val originalArchive = remember(context) { CompressionOriginalArchive(context.applicationContext) }
+    var pendingArchiveJobId by rememberSaveable { mutableStateOf<String?>(null) }
+    var preparingArchive by remember { mutableStateOf(false) }
+    var archiveRevision by rememberSaveable { mutableIntStateOf(0) }
+    var archiveMessageJobId by rememberSaveable { mutableStateOf<String?>(null) }
+    var archiveMessage by rememberSaveable { mutableStateOf<String?>(null) }
+    val archiveLauncher = rememberLauncherForActivityResult(StartIntentSenderForResult()) { result ->
+        val jobId = pendingArchiveJobId ?: return@rememberLauncherForActivityResult
+        pendingArchiveJobId = null
+        archiveMessageJobId = jobId
+        if (result.resultCode != Activity.RESULT_OK) {
+            archiveMessage = "원본 폴더 이동을 취소했어요."
+            archiveRevision++
+        } else {
+            preparingArchive = true
+            scope.launch {
+                try {
+                    val moved = originalArchive.move(jobId)
+                    archiveMessage = buildString {
+                        append("원본 ${moved.movedCount}장을 compress_original 폴더로 이동했어요.")
+                        if (moved.failedCount > 0) append(" ${moved.failedCount}장은 이동을 완료하지 못했어요. 다시 시도해 주세요.")
+                        if (moved.unavailableCount > 0) append(" ${moved.unavailableCount}장은 접근할 수 없거나 이동을 지원하지 않아 제외했어요.")
+                    }
+                } catch (cancelled: CancellationException) { throw cancelled }
+                catch (failure: Exception) {
+                    DiagnosticLog.recordException(context, "compress/archive_result", failure)
+                    archiveMessage = "원본 폴더 이동을 완료하지 못했어요. 이동한 사진은 compress_original 폴더에서 확인하고, 남은 원본은 다시 시도해 주세요."
+                } finally { preparingArchive = false; archiveRevision++ }
+            }
+        }
+    }
+    fun requestOriginalArchive(jobId: String) {
+        if (Build.VERSION.SDK_INT < 30 || preparingArchive || pendingArchiveJobId != null) return
+        preparingArchive = true
+        archiveMessageJobId = jobId
+        archiveMessage = null
+        scope.launch {
+            try {
+                val targets = originalArchive.targets(jobId)
+                if (targets.mediaUris.isEmpty()) {
+                    archiveMessage = "별도 보관 폴더로 이동할 원본이 없어요. 원본 상태와 사진 권한을 확인해 주세요."
+                } else {
+                    val request = MediaStore.createWriteRequest(context.contentResolver, targets.mediaUris)
+                    pendingArchiveJobId = jobId
+                    archiveLauncher.launch(IntentSenderRequest.Builder(request.intentSender).build())
+                }
+            } catch (cancelled: CancellationException) { throw cancelled }
+            catch (failure: Exception) {
+                pendingArchiveJobId = null
+                DiagnosticLog.recordException(context, "compress/archive_request", failure)
+                archiveMessage = "원본 이동을 위한 파일 수정 확인창을 열지 못했어요."
+            } finally { preparingArchive = false; archiveRevision++ }
+        }
+    }
 
     var collageUris by rememberSaveable { mutableStateOf<List<Uri>>(emptyList()) }
     var collageSelectionRevision by rememberSaveable { mutableIntStateOf(0) }
@@ -169,6 +233,11 @@ private fun ToolboxApp() {
 
     suspend fun enqueue(job: JobSpec) {
         JobStore(context).save(job)
+        if (job is CompressJob) {
+            try { CompressionOriginalStore(context).begin(job.id) }
+            catch (cancelled: CancellationException) { throw cancelled }
+            catch (failure: Exception) { DiagnosticLog.recordException(context, "compress/archive_begin", failure) }
+        }
         val request = OneTimeWorkRequestBuilder<ToolboxWorker>()
             .setInputData(workDataOf(ToolboxWorker.KEY_JOB_ID to job.id))
             .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
@@ -215,6 +284,10 @@ private fun ToolboxApp() {
                     },
                     message = transientMessage,
                     onDismissMessage = { transientMessage = null },
+                    compressionCleanup = { jobId -> CompressionOriginalAction(
+                        jobId, preparingArchive || pendingArchiveJobId != null, archiveRevision,
+                        if (archiveMessageJobId == jobId) archiveMessage else null, ::requestOriginalArchive,
+                    ) },
                 )
 
                 Screen.COLLAGE -> editorStateHolder.SaveableStateProvider("collage") {
@@ -271,9 +344,10 @@ private fun ToolboxApp() {
                         PickerTarget.COLLAGE -> MAX_COLLAGE_PHOTOS
                         PickerTarget.SPLIT -> 1
                         PickerTarget.GIF_PHOTOS -> 100
-                        PickerTarget.COMPRESS -> Int.MAX_VALUE
+                        PickerTarget.COMPRESS -> MAX_COMPRESSION_PHOTOS
                     },
                     onDismiss = { galleryTarget = null },
+                    compressionTools = target == PickerTarget.COMPRESS,
                     onConfirm = { uris ->
                         when (target) {
                             PickerTarget.COLLAGE -> { collageUris = uris; collageSelectionRevision++ }
@@ -297,10 +371,11 @@ private fun HomeScreen(
     onCancel: () -> Unit,
     message: String?,
     onDismissMessage: () -> Unit,
+    compressionCleanup: @Composable (String) -> Unit,
 ) {
     val scroll = rememberScrollState()
     Column(
-        modifier = Modifier.fillMaxSize().verticalScroll(scroll).padding(horizontal = 20.dp, vertical = 24.dp),
+        modifier = Modifier.fillMaxSize().safeDrawingPadding().verticalScroll(scroll).padding(horizontal = 20.dp, vertical = 24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Spacer(Modifier.height(16.dp))
@@ -315,14 +390,14 @@ private fun HomeScreen(
         }
         Spacer(Modifier.height(4.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
-            ToolCard("콜라주", "최대 9장", Icons.Outlined.GridOn, Modifier.weight(1f)) { onOpen(Screen.COLLAGE) }
+            ToolCard("콜라주", "최대 15장 · 템플릿", Icons.Outlined.GridOn, Modifier.weight(1f)) { onOpen(Screen.COLLAGE) }
             ToolCard("사진 압축", "여러 장 · 폴더", Icons.Outlined.Compress, Modifier.weight(1f)) { onOpen(Screen.COMPRESS) }
         }
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
             ToolCard("사진 분할", "인스타그램 격자", Icons.Outlined.Splitscreen, Modifier.weight(1f)) { onOpen(Screen.SPLIT) }
             ToolCard("GIF · MP4 만들기", "사진 애니메이션", Icons.Outlined.AutoAwesomeMotion, Modifier.weight(1f)) { onOpen(Screen.GIF) }
         }
-        WorkStatusCard(workInfo, onCancel)
+        WorkStatusCard(workInfo, onCancel, compressionCleanup)
         if (message != null) {
             Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)) {
                 Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -332,7 +407,7 @@ private fun HomeScreen(
             }
         }
         Text(
-            "원본은 수정하지 않고 결과만 별도 앨범에 저장합니다. 사진은 서버로 전송되지 않습니다.",
+            "압축 후 원본을 compress_original 폴더로 모아 직접 관리할 수 있습니다. 사진은 서버로 전송되지 않습니다.",
             fontSize = 13.sp,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(top = 8.dp),
@@ -361,7 +436,7 @@ private fun ToolCard(title: String, subtitle: String, icon: androidx.compose.ui.
 }
 
 @Composable
-private fun WorkStatusCard(workInfo: WorkInfo?, onCancel: () -> Unit) {
+private fun WorkStatusCard(workInfo: WorkInfo?, onCancel: () -> Unit, compressionCleanup: @Composable (String) -> Unit) {
     if (workInfo == null) return
     val running = workInfo.state == WorkInfo.State.RUNNING || workInfo.state == WorkInfo.State.ENQUEUED
     val current = workInfo.progress.getInt(ToolboxWorker.KEY_CURRENT, 0)
@@ -379,6 +454,14 @@ private fun WorkStatusCard(workInfo: WorkInfo?, onCancel: () -> Unit) {
             val measured = workInfo.outputData.getInt(ToolboxWorker.KEY_MEASURED_FILES, 0)
             if (!running && measured > 0) {
                 Text("${measured}장 합계: ${formatBytes(workInfo.outputData.getLong(ToolboxWorker.KEY_INPUT_BYTES, 0))} → ${formatBytes(workInfo.outputData.getLong(ToolboxWorker.KEY_OUTPUT_BYTES, 0))}", color = MaterialTheme.colorScheme.primary, fontSize = 13.sp)
+            }
+            if (workInfo.state == WorkInfo.State.SUCCEEDED) {
+                workInfo.outputData.getString(ToolboxWorker.KEY_COMPRESSION_JOB_ID)?.takeIf {
+                    workInfo.outputData.getInt(ToolboxWorker.KEY_SUCCEEDED, 0) > 0
+                }?.let { compressionCleanup(it) }
+                if (workInfo.outputData.getBoolean(ToolboxWorker.KEY_COMPRESSION_CLEANUP_UNAVAILABLE, false)) {
+                    Text("압축본은 저장했지만 원본 목록을 저장하지 못해 별도 보관 폴더 이동을 제공할 수 없어요.", style = MaterialTheme.typography.bodySmall)
+                }
             }
             if (running) {
                 LinearProgressIndicator(
@@ -411,16 +494,8 @@ internal fun loadEditorPreview(context: Context, uri: Uri, surface: String, maxE
     }
 }
 
-private fun decodeEditorPreviewWithImageDecoder(context: Context, uri: Uri, maxEdge: Int, maxPixels: Long): Bitmap {
-    val source = ImageDecoder.createSource(context.contentResolver, uri)
-    return ImageDecoder.decodeBitmap(source) { decoder, info, _ ->
-        val sourceSize = info.size
-        val (width, height) = previewDimensions(sourceSize.width, sourceSize.height, maxEdge, maxPixels)
-        decoder.setTargetSize(width, height)
-        decoder.setTargetColorSpace(android.graphics.ColorSpace.get(android.graphics.ColorSpace.Named.SRGB))
-        decoder.allocator = ImageDecoder.ALLOCATOR_SOFTWARE
-    }
-}
+private fun decodeEditorPreviewWithImageDecoder(context: Context, uri: Uri, maxEdge: Int, maxPixels: Long): Bitmap =
+    decodeStillBitmap(context, uri, maxEdge, maxPixels)
 
 private const val EDITOR_PREVIEW_MAX_EDGE = 768
 
@@ -583,7 +658,12 @@ private suspend fun collectImagesInTree(context: Context, treeUri: Uri, includeC
             scanContext.ensureActive()
             when {
                 file.isDirectory && includeChildren -> visit(file)
-                file.isFile && (file.type?.startsWith("image/") == true || file.name?.matches(Regex(".*\\.(jpe?g|png|webp|heic)$", RegexOption.IGNORE_CASE)) == true) -> results += file.uri
+                file.isFile && (file.type?.startsWith("image/") == true || file.name?.matches(Regex(".*\\.(jpe?g|png|webp|heic)$", RegexOption.IGNORE_CASE)) == true) -> {
+                    check(results.size < MAX_COMPRESSION_PHOTOS) {
+                        "한 번에 최대 ${MAX_COMPRESSION_PHOTOS}장까지 압축할 수 있어요. 사진 선택에서 나누어 선택해 주세요."
+                    }
+                    results += file.uri
+                }
             }
         }
     }

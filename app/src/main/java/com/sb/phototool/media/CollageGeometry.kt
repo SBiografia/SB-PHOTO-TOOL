@@ -31,13 +31,14 @@ fun photoPlacement(sourceWidth: Int, sourceHeight: Int, width: Float, height: Fl
     val sideways = tile.quarterTurns.mod(2) == 1
     val rotatedWidth = (if (sideways) sourceHeight else sourceWidth).coerceAtLeast(1).toFloat()
     val rotatedHeight = (if (sideways) sourceWidth else sourceHeight).coerceAtLeast(1).toFloat()
-    val scale = max(width / rotatedWidth, height / rotatedHeight) * tile.zoom.coerceIn(1f, 3f)
+    val base = if (tile.fitInside) min(width / rotatedWidth, height / rotatedHeight) else max(width / rotatedWidth, height / rotatedHeight)
+    val scale = base * tile.zoom.coerceIn(1f, 3f)
     val drawWidth = rotatedWidth * scale
     val drawHeight = rotatedHeight * scale
     val extraX = max(0f, (drawWidth - width) / 2f)
     val extraY = max(0f, (drawHeight - height) / 2f)
-    val x = -extraX + tile.panX.coerceIn(-1f, 1f) * extraX
-    val y = -extraY + tile.panY.coerceIn(-1f, 1f) * extraY
+    val x = (width - drawWidth) / 2 + tile.panX.coerceIn(-1f, 1f) * extraX
+    val y = (height - drawHeight) / 2 + tile.panY.coerceIn(-1f, 1f) * extraY
     return PhotoRect(x, y, x + drawWidth, y + drawHeight)
 }
 

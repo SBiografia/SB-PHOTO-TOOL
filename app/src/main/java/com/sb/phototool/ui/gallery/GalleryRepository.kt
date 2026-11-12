@@ -40,7 +40,11 @@ internal fun photoAccess(context: Context): PhotoAccess {
     }
 }
 
-internal data class GalleryPhoto(val id: Long, val uri: String, val name: String, val addedSeconds: Long)
+internal enum class GallerySort(val label: String) {
+    RECENT("최근 저장순"), SIZE_DESC("용량 큰 순")
+}
+
+internal data class GalleryPhoto(val id: Long, val uri: String, val name: String, val addedSeconds: Long, val sizeBytes: Long = 0)
 internal data class GalleryAlbum(val id: String, val name: String, val count: Int)
 internal data class GalleryPage(val photos: List<GalleryPhoto>, val hasMore: Boolean)
 
@@ -70,7 +74,9 @@ internal class GalleryRepository(private val context: Context) {
         counts.values.sortedBy { it.name.lowercase() }
     }
 
-    suspend fun page(albumId: String?, favorites: Boolean, after: GalleryPhoto?): GalleryPage = withContext(Dispatchers.IO) {
+    suspend fun page(albumId: String?, favorites: Boolean, after: GalleryPhoto?, sort: GallerySort = GallerySort.RECENT,
+                     pageSize: Int = PAGE_SIZE): GalleryPage = withContext(Dispatchers.IO) {
+        require(pageSize in 1..PAGE_SIZE)
         val predicates = mutableListOf(visibleSelection())
         val args = mutableListOf<String>()
         if (albumId != null) {
@@ -78,25 +84,27 @@ internal class GalleryRepository(private val context: Context) {
             args += albumId
         }
         if (favorites && Build.VERSION.SDK_INT >= 30) predicates += "${MediaStore.Images.Media.IS_FAVORITE} = 1"
+        val sortColumn = if (sort == GallerySort.SIZE_DESC) MediaStore.Images.Media.SIZE else MediaStore.Images.Media.DATE_ADDED
         if (after != null) {
-            predicates += "(${MediaStore.Images.Media.DATE_ADDED} < ? OR (${MediaStore.Images.Media.DATE_ADDED} = ? AND ${MediaStore.Images.Media._ID} < ?))"
-            args += listOf(after.addedSeconds.toString(), after.addedSeconds.toString(), after.id.toString())
+            val lastValue = if (sort == GallerySort.SIZE_DESC) after.sizeBytes else after.addedSeconds
+            predicates += "($sortColumn < ? OR ($sortColumn = ? AND ${MediaStore.Images.Media._ID} < ?))"
+            args += listOf(lastValue.toString(), lastValue.toString(), after.id.toString())
         }
         val query = Bundle().apply {
             putString(ContentResolver.QUERY_ARG_SQL_SELECTION, predicates.joinToString(" AND "))
             putStringArray(ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS, args.toTypedArray())
-            putString(ContentResolver.QUERY_ARG_SQL_SORT_ORDER, "${MediaStore.Images.Media.DATE_ADDED} DESC, ${MediaStore.Images.Media._ID} DESC")
-            putInt(ContentResolver.QUERY_ARG_LIMIT, PAGE_SIZE + 1)
+            putString(ContentResolver.QUERY_ARG_SQL_SORT_ORDER, "$sortColumn DESC, ${MediaStore.Images.Media._ID} DESC")
+            putInt(ContentResolver.QUERY_ARG_LIMIT, pageSize + 1)
         }
         val photos = mutableListOf<GalleryPhoto>()
-        resolver.query(collection, arrayOf(MediaStore.Images.Media._ID, MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.DATE_ADDED), query, null)?.use { cursor ->
-            while (photos.size <= PAGE_SIZE && cursor.moveToNext()) {
+        resolver.query(collection, arrayOf(MediaStore.Images.Media._ID, MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.DATE_ADDED, MediaStore.Images.Media.SIZE), query, null)?.use { cursor ->
+            while (photos.size <= pageSize && cursor.moveToNext()) {
                 currentCoroutineContext().ensureActive()
                 val id = cursor.getLong(0)
-                photos += GalleryPhoto(id, ContentUris.withAppendedId(collection, id).toString(), cursor.getString(1) ?: "사진", cursor.getLong(2))
+                photos += GalleryPhoto(id, ContentUris.withAppendedId(collection, id).toString(), cursor.getString(1) ?: "사진", cursor.getLong(2), cursor.getLong(3))
             }
         } ?: error("사진 목록을 읽지 못했어요. 다시 시도해 주세요.")
-        GalleryPage(photos.take(PAGE_SIZE), photos.size > PAGE_SIZE)
+        GalleryPage(photos.take(pageSize), photos.size > pageSize)
     }
 
     suspend fun thumbnail(photo: GalleryPhoto): Bitmap? {

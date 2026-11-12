@@ -2,6 +2,7 @@ package com.sb.phototool.ui.gallery
 
 import org.junit.Assert.*
 import org.junit.Test
+import com.sb.phototool.ui.compress.MAX_COMPRESSION_PHOTOS
 
 class GallerySelectionTest {
     private fun photo(id: Int) = GalleryPhoto(id.toLong(), "content://photos/$id", "$id.jpg", 0)
@@ -41,9 +42,31 @@ class GallerySelectionTest {
         repeat(20) { selection.setSelected(photo(it % 6), false) }
         assertTrue(selection.photos.isEmpty())
     }
-    @Test fun bulkCompressionHasNoHundredPhotoPickerLimit() {
-        val selection = GallerySelection().apply { beginSession("compression", Int.MAX_VALUE) }
-        repeat(200) { assertTrue(selection.setSelected(photo(it), true)) }
-        assertEquals(200, selection.photos.size)
+    @Test fun compressionRejectsTheHundredAndFirstPhoto() {
+        val selection = GallerySelection().apply { beginSession("compression", MAX_COMPRESSION_PHOTOS) }
+        repeat(100) { assertTrue(selection.setSelected(photo(it), true)) }
+        assertFalse(selection.setSelected(photo(100), true))
+        assertEquals(100, selection.photos.size)
+    }
+    @Test fun selectAllUsesCandidateOrderAndStopsAtOneHundred() {
+        val selection = GallerySelection().apply { beginSession("compression", MAX_COMPRESSION_PHOTOS) }
+        val candidates = (199 downTo 0).map(::photo)
+        assertEquals(100, selection.selectAll(candidates))
+        assertEquals(candidates.take(100), selection.photos.toList())
+        assertEquals(0, selection.selectAll(candidates))
+    }
+    @Test fun selectAllPreservesOtherAlbumsAndDoesNotDuplicateExistingPhotos() {
+        val selection = GallerySelection().apply { beginSession("compression", MAX_COMPRESSION_PHOTOS) }
+        selection.toggle(photo(200))
+        selection.toggle(photo(5))
+        assertEquals(98, selection.selectAll((0..100).map(::photo)))
+        assertEquals(listOf(photo(200), photo(5)), selection.photos.take(2))
+        assertEquals(100, selection.photos.map { it.uri }.distinct().size)
+    }
+    @Test fun selectAllHandlesEmptyAndSmallAlbumsAndDuplicateCandidates() {
+        val selection = GallerySelection().apply { beginSession("compression", MAX_COMPRESSION_PHOTOS) }
+        assertEquals(0, selection.selectAll(emptyList()))
+        assertEquals(2, selection.selectAll(listOf(photo(1), photo(1), photo(2))))
+        assertEquals(listOf(photo(1), photo(2)), selection.photos.toList())
     }
 }

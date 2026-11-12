@@ -2,7 +2,7 @@ package com.sb.phototool.media
 
 import kotlin.math.abs
 
-const val MAX_COLLAGE_PHOTOS = 9
+const val MAX_COLLAGE_PHOTOS = 15
 
 data class NormalizedCell(
     val left: Float,
@@ -29,7 +29,17 @@ fun collageCells(count: Int): List<NormalizedCell> = when (count) {
     6 -> regularCells(3, 2)
     7 -> rowsOfCells(3, 4)
     8 -> regularCells(4, 2)
-    MAX_COLLAGE_PHOTOS -> regularCells(3, 3)
+    9 -> regularCells(3, 3)
+    in 10..MAX_COLLAGE_PHOTOS -> {
+        val rows = (count + 4) / 5
+        val perRow = count / rows
+        val extra = count % rows
+        (0 until rows).flatMap { row ->
+            val columns = perRow + if (row < extra) 1 else 0
+            List(columns) { col -> NormalizedCell(col.toFloat() / columns, row.toFloat() / rows,
+                (col + 1f) / columns, (row + 1f) / rows) }
+        }
+    }
     else -> emptyList()
 }
 
@@ -169,7 +179,10 @@ private fun buildCollageLayouts(count: Int): List<CollageLayout> {
             NormalizedCell(0f, .28f, .28f, 1f),
         )
         repeat(count - 5) { i ->
-            val slot = 1 + i * 2
+            val slot = if (count <= 9) 1 + i * 2 else (1..spiral.lastIndex).maxBy { index ->
+                val cell = spiral[index]
+                (cell.right - cell.left) * (cell.bottom - cell.top)
+            }
             val cell = spiral.removeAt(slot)
             spiral.addAll(slot, divide(cell, 2, cell.right - cell.left > cell.bottom - cell.top))
         }

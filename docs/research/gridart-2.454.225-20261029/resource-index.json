@@ -1,0 +1,3045 @@
+{
+  "source_apk_sha256": "abcfbb5d40281dafcc1826afbbaf10c5d1d3785c232342dded30045391df271c",
+  "basis": "REA JADX smali and Apktool decoded resources. Menu rows list string constants preceding each field assignment, not a register-level binding. Multiple labels in one row are candidates, and reused registers may omit a label. Constructor arrays and runtime conditions must be consulted separately.",
+  "menus": {
+    "j20": [
+      {
+        "field": "d",
+        "resource_ids": [
+          "0x7f120109"
+        ],
+        "en": [
+          "Edit"
+        ],
+        "ko": [
+          "편집"
+        ]
+      },
+      {
+        "field": "e",
+        "resource_ids": [
+          "0x7f120272"
+        ],
+        "en": [
+          "Lock"
+        ],
+        "ko": [
+          "잠그기"
+        ]
+      },
+      {
+        "field": "f",
+        "resource_ids": [
+          "0x7f120271"
+        ],
+        "en": [
+          "Forward"
+        ],
+        "ko": [
+          "앞으로 가져오기"
+        ]
+      },
+      {
+        "field": "g",
+        "resource_ids": [
+          "0x7f120270"
+        ],
+        "en": [
+          "Backward"
+        ],
+        "ko": [
+          "뒤로 보내기"
+        ]
+      },
+      {
+        "field": "h",
+        "resource_ids": [
+          "0x7f1203a3"
+        ],
+        "en": [
+          "Rotate"
+        ],
+        "ko": [
+          "회전"
+        ]
+      },
+      {
+        "field": "i",
+        "resource_ids": [
+          "0x7f12022e"
+        ],
+        "en": [
+          "Fit"
+        ],
+        "ko": [
+          "맞추기"
+        ]
+      },
+      {
+        "field": "j",
+        "resource_ids": [
+          "0x7f12022d"
+        ],
+        "en": [
+          "Fill"
+        ],
+        "ko": [
+          "채우기"
+        ]
+      },
+      {
+        "field": "k",
+        "resource_ids": [
+          "0x7f120183"
+        ],
+        "en": [
+          "Vertical"
+        ],
+        "ko": [
+          "수직선"
+        ]
+      },
+      {
+        "field": "l",
+        "resource_ids": [
+          "0x7f120182"
+        ],
+        "en": [
+          "Horizon"
+        ],
+        "ko": [
+          "수평선"
+        ]
+      },
+      {
+        "field": "m",
+        "resource_ids": [
+          "0x7f12056e"
+        ],
+        "en": [
+          "Zoom In"
+        ],
+        "ko": [
+          "확대"
+        ]
+      },
+      {
+        "field": "n",
+        "resource_ids": [
+          "0x7f120570"
+        ],
+        "en": [
+          "Zoom Out"
+        ],
+        "ko": [
+          "축소"
+        ]
+      },
+      {
+        "field": "o",
+        "resource_ids": [
+          "0x7f120230"
+        ],
+        "en": [
+          "Left"
+        ],
+        "ko": [
+          "왼쪽"
+        ]
+      },
+      {
+        "field": "p",
+        "resource_ids": [
+          "0x7f12039b"
+        ],
+        "en": [
+          "Right"
+        ],
+        "ko": [
+          "오른쪽"
+        ]
+      },
+      {
+        "field": "q",
+        "resource_ids": [
+          "0x7f12054b"
+        ],
+        "en": [
+          "Up"
+        ],
+        "ko": [
+          "위"
+        ]
+      },
+      {
+        "field": "r",
+        "resource_ids": [
+          "0x7f1200fd"
+        ],
+        "en": [
+          "Down"
+        ],
+        "ko": [
+          "아래"
+        ]
+      },
+      {
+        "field": "s",
+        "resource_ids": [
+          "0x7f120460"
+        ],
+        "en": [
+          "3D Popout"
+        ],
+        "ko": [
+          "3D 튀어나오기"
+        ]
+      },
+      {
+        "field": "t",
+        "resource_ids": [
+          "0x7f12045d"
+        ],
+        "en": [
+          "Outline"
+        ],
+        "ko": [
+          "윤곽선"
+        ]
+      },
+      {
+        "field": "u",
+        "resource_ids": [
+          "0x7f120476"
+        ],
+        "en": [
+          "Swap"
+        ],
+        "ko": [
+          "교환"
+        ]
+      },
+      {
+        "field": "v",
+        "resource_ids": [
+          "0x7f12046a"
+        ],
+        "en": [
+          "Replace"
+        ],
+        "ko": [
+          "교체"
+        ]
+      },
+      {
+        "field": "w",
+        "resource_ids": [
+          "0x7f1200e1"
+        ],
+        "en": [
+          "Delete"
+        ],
+        "ko": [
+          "지우다"
+        ]
+      },
+      {
+        "field": "x",
+        "resource_ids": [
+          "0x7f120199"
+        ],
+        "en": [
+          "Crop"
+        ],
+        "ko": [
+          "자르기"
+        ]
+      },
+      {
+        "field": "y",
+        "resource_ids": [
+          "0x7f12007b",
+          "0x7f120177"
+        ],
+        "en": [
+          "Border",
+          "FILTER"
+        ],
+        "ko": [
+          "테두리",
+          "필터"
+        ]
+      },
+      {
+        "field": "z",
+        "resource_ids": [
+          "0x7f12002f"
+        ],
+        "en": [
+          "AI Cutout"
+        ],
+        "ko": [
+          "AI 자르기"
+        ]
+      },
+      {
+        "field": "A",
+        "resource_ids": [
+          "0x7f12044b"
+        ],
+        "en": [
+          "Eraser"
+        ],
+        "ko": [
+          "지우개"
+        ]
+      },
+      {
+        "field": "B",
+        "resource_ids": [
+          "0x7f12046a"
+        ],
+        "en": [
+          "Replace"
+        ],
+        "ko": [
+          "교체"
+        ]
+      },
+      {
+        "field": "C",
+        "resource_ids": [],
+        "en": [],
+        "ko": []
+      },
+      {
+        "field": "D",
+        "resource_ids": [],
+        "en": [],
+        "ko": []
+      }
+    ],
+    "dt0": [
+      {
+        "field": "h",
+        "resource_ids": [
+          "0x7f12042a"
+        ],
+        "en": [
+          "Templates"
+        ],
+        "ko": [
+          "템플릿"
+        ]
+      },
+      {
+        "field": "i",
+        "resource_ids": [
+          "0x7f12043d"
+        ],
+        "en": [
+          "Layout"
+        ],
+        "ko": [
+          "레이아웃"
+        ]
+      },
+      {
+        "field": "j",
+        "resource_ids": [],
+        "en": [],
+        "ko": []
+      },
+      {
+        "field": "k",
+        "resource_ids": [
+          "0x7f120257"
+        ],
+        "en": [
+          "Margin"
+        ],
+        "ko": [
+          "마진"
+        ]
+      },
+      {
+        "field": "l",
+        "resource_ids": [
+          "0x7f120463"
+        ],
+        "en": [
+          "Ratio"
+        ],
+        "ko": [
+          "비율"
+        ]
+      },
+      {
+        "field": "m",
+        "resource_ids": [
+          "0x7f120062"
+        ],
+        "en": [
+          "BACKGROUND"
+        ],
+        "ko": [
+          "배경"
+        ]
+      },
+      {
+        "field": "n",
+        "resource_ids": [
+          "0x7f12007b"
+        ],
+        "en": [
+          "Border"
+        ],
+        "ko": [
+          "테두리"
+        ]
+      },
+      {
+        "field": "o",
+        "resource_ids": [
+          "0x7f12045d"
+        ],
+        "en": [
+          "Outline"
+        ],
+        "ko": [
+          "윤곽선"
+        ]
+      },
+      {
+        "field": "p",
+        "resource_ids": [
+          "0x7f120180"
+        ],
+        "en": [
+          "Original"
+        ],
+        "ko": [
+          "원본"
+        ]
+      },
+      {
+        "field": "q",
+        "resource_ids": [
+          "0x7f120199"
+        ],
+        "en": [
+          "Crop"
+        ],
+        "ko": [
+          "자르기"
+        ]
+      },
+      {
+        "field": "r",
+        "resource_ids": [
+          "0x7f12019a"
+        ],
+        "en": [
+          "FRAME"
+        ],
+        "ko": [
+          "프레임"
+        ]
+      },
+      {
+        "field": "s",
+        "resource_ids": [
+          "0x7f12042c"
+        ],
+        "en": [
+          "TEXT"
+        ],
+        "ko": [
+          "텍스트"
+        ]
+      },
+      {
+        "field": "t",
+        "resource_ids": [
+          "0x7f120177"
+        ],
+        "en": [
+          "FILTER"
+        ],
+        "ko": [
+          "필터"
+        ]
+      },
+      {
+        "field": "u",
+        "resource_ids": [
+          "0x7f12002c"
+        ],
+        "en": [
+          "Add"
+        ],
+        "ko": [
+          "사진 추가"
+        ]
+      },
+      {
+        "field": "v",
+        "resource_ids": [
+          "0x7f120405"
+        ],
+        "en": [
+          "Sticker"
+        ],
+        "ko": [
+          "스티커"
+        ]
+      },
+      {
+        "field": "w",
+        "resource_ids": [
+          "0x7f12002f"
+        ],
+        "en": [
+          "AI Cutout"
+        ],
+        "ko": [
+          "AI 자르기"
+        ]
+      },
+      {
+        "field": "x",
+        "resource_ids": [
+          "0x7f120466"
+        ],
+        "en": [
+          "Remove"
+        ],
+        "ko": [
+          "제거"
+        ]
+      },
+      {
+        "field": "y",
+        "resource_ids": [
+          "0x7f12044a"
+        ],
+        "en": [
+          "Enhance"
+        ],
+        "ko": [
+          "향상"
+        ]
+      },
+      {
+        "field": "z",
+        "resource_ids": [
+          "0x7f12002e"
+        ],
+        "en": [
+          "Adjust"
+        ],
+        "ko": [
+          "조정"
+        ]
+      },
+      {
+        "field": "A",
+        "resource_ids": [
+          "0x7f12002c"
+        ],
+        "en": [
+          "Add"
+        ],
+        "ko": [
+          "사진 추가"
+        ]
+      },
+      {
+        "field": "B",
+        "resource_ids": [
+          "0x7f120446"
+        ],
+        "en": [
+          "Draw"
+        ],
+        "ko": [
+          "낙서"
+        ]
+      },
+      {
+        "field": "C",
+        "resource_ids": [
+          "0x7f120107"
+        ],
+        "en": [
+          "Dress Up"
+        ],
+        "ko": [
+          "차려 입기"
+        ]
+      },
+      {
+        "field": "D",
+        "resource_ids": [
+          "0x7f120448"
+        ],
+        "en": [
+          "Effect"
+        ],
+        "ko": [
+          "효과"
+        ]
+      }
+    ]
+  },
+  "layouts": {
+    "activity_edit": [
+      {
+        "widget": "View",
+        "id": "@id/top_space",
+        "layout_width": "fill_parent",
+        "layout_height": "0.0dip"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/edit_root_view",
+        "layout_width": "fill_parent",
+        "layout_height": "0.0dip"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.EditLayoutView",
+        "orientation": "vertical",
+        "id": "@id/edit_layout",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/hint_layout",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.NewFeatureHintView",
+        "layout_gravity": "start|bottom",
+        "id": "@id/view_background_moved",
+        "layout_width": "wrap_content",
+        "layout_height": "110.0dip",
+        "layout_marginStart": "56.0dip"
+      },
+      {
+        "widget": "FrameLayout",
+        "gravity": "center",
+        "orientation": "vertical",
+        "id": "@id/full_mask_layout",
+        "background": "#99000000",
+        "visibility": "gone",
+        "clickable": "true",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "com.camerasideas.baseutils.widget.AnimCircleView",
+        "layout_gravity": "bottom",
+        "id": "@id/circle_view",
+        "focusable": "false",
+        "visibility": "gone",
+        "clickable": "false",
+        "layout_width": "@dimen/circle_anim_view_widht",
+        "layout_height": "@dimen/circle_anim_view_height",
+        "layout_marginBottom": "115.5dip"
+      },
+      {
+        "widget": "FrameLayout",
+        "layout_gravity": "center|bottom",
+        "orientation": "vertical",
+        "id": "@id/custom_sticker_menu_layout",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "View",
+        "layout_gravity": "center|bottom",
+        "id": "@id/custom_sticker_menu_mask",
+        "background": "@color/classify_dialog_bg",
+        "clickable": "true",
+        "layout_width": "fill_parent",
+        "layout_height": "70.0dip"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.collagemenuview.CollageMenuView",
+        "layout_gravity": "center|bottom",
+        "id": "@id/custom_sticker_menu",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content",
+        "layout_marginLeft": "12.0dip",
+        "layout_marginRight": "12.0dip",
+        "layout_marginBottom": "39.0dip"
+      },
+      {
+        "widget": "LinearLayout",
+        "layout_gravity": "end|bottom",
+        "orientation": "vertical",
+        "id": "@id/layout_grid_add",
+        "background": "@drawable/bg_edit_choose_menu",
+        "visibility": "gone",
+        "layout_width": "@dimen/cm_dp_186",
+        "layout_height": "wrap_content",
+        "layout_marginRight": "@dimen/cm_dp_20",
+        "layout_marginBottom": "@dimen/cm_dp_15",
+        "layout_marginEnd": "@dimen/cm_dp_20"
+      },
+      {
+        "widget": "LinearLayout",
+        "id": "@id/btn_add_to_grid",
+        "layout_width": "fill_parent",
+        "layout_height": "@dimen/cm_dp_50"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "layout_gravity": "center_vertical",
+        "id": "@id/iv_add_to_grid",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginStart": "@dimen/cm_dp_15"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/sp_15",
+        "textColor": "@color/white_color",
+        "ellipsize": "end",
+        "layout_gravity": "center_vertical",
+        "id": "@id/tv_add_to_grid",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f12002d",
+        "maxLines": "1",
+        "fontFamily": "@string/APKTOOL_DUPLICATE_string_0x7f1203a0",
+        "layout_marginStart": "@dimen/cm_dp_15",
+        "text_ko": "그리드에 추가",
+        "text_en": "Add to Grid"
+      },
+      {
+        "widget": "LinearLayout",
+        "id": "@id/btn_photo_on_photo",
+        "layout_width": "fill_parent",
+        "layout_height": "@dimen/cm_dp_50"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "layout_gravity": "center_vertical",
+        "id": "@id/iv_photo_on_photo",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginStart": "@dimen/cm_dp_15"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/sp_15",
+        "textColor": "@color/white_color",
+        "ellipsize": "end",
+        "layout_gravity": "center_vertical",
+        "id": "@id/tv_photo_on_photo",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f1202fe",
+        "maxLines": "1",
+        "fontFamily": "@string/APKTOOL_DUPLICATE_string_0x7f1203a0",
+        "layout_marginStart": "@dimen/cm_dp_15",
+        "text_ko": "사진 속의 사진",
+        "text_en": "Photo on Photo"
+      },
+      {
+        "widget": "include",
+        "layout_gravity": "bottom",
+        "id": "@id/frame_style_choice_layout",
+        "visibility": "gone",
+        "layout_width": "@dimen/cm_dp_186",
+        "layout_height": "wrap_content",
+        "layout_marginBottom": "@dimen/cm_dp_15",
+        "layout_marginStart": "@dimen/cm_dp_20"
+      },
+      {
+        "widget": "include",
+        "layout_gravity": "center|bottom",
+        "id": "@id/editor_pro_layout",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/full_screen_fragment_container",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/full_screen_fragment_bottom",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.NewFeatureHintView",
+        "layout_gravity": "bottom",
+        "id": "@id/view_stub_reshape_hint",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "FrameLayout",
+        "layout_gravity": "center|bottom",
+        "orientation": "vertical",
+        "id": "@id/collage_menu_layout",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "View",
+        "layout_gravity": "center|bottom",
+        "id": "@id/collage_menu_mask",
+        "background": "@color/classify_dialog_bg",
+        "clickable": "true",
+        "layout_width": "fill_parent",
+        "layout_height": "134.5dip"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.collagemenuview.CollageMenuView",
+        "layout_gravity": "center|bottom",
+        "id": "@id/collage_menu",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content",
+        "layout_marginLeft": "12.0dip",
+        "layout_marginRight": "12.0dip",
+        "layout_marginBottom": "59.0dip"
+      },
+      {
+        "widget": "androidx.constraintlayout.widget.ConstraintLayout",
+        "id": "@id/ad_bg_layout",
+        "background": "@color/tools_menu_bg_color",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/layout_ad_container",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "LinearLayout",
+        "gravity": "center",
+        "layout_gravity": "center|top",
+        "orientation": "horizontal",
+        "id": "@id/ad_layout",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content",
+        "layout_marginTop": "@dimen/ad_native_margin_top",
+        "minHeight": "@dimen/ad_native_layout_height"
+      },
+      {
+        "widget": "View",
+        "id": "@id/bottom_padding",
+        "layout_width": "fill_parent",
+        "layout_height": "0.0dip"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/full_screen_fragment_container_without_ad",
+        "layout_width": "fill_parent",
+        "layout_height": "0.0dip"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/full_screen_fragment_for_cutout",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/full_screen_fragment_for_store",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/full_screen_fragment_for_filter",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "include",
+        "id": "@id/color_picker_view",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/full_screen_fragment_for_unlock",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/full_screen_fragment_for_pro",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/full_screen_fragment_for_free_trial",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/full_screen_fragment_for_thanks",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "View",
+        "id": "@id/mask_view",
+        "visibility": "gone",
+        "clickable": "true",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "androidx.constraintlayout.widget.ConstraintLayout",
+        "id": "@id/mask_custom_sticker",
+        "background": "#c8000000",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "androidx.cardview.widget.CardView",
+        "id": "@id/btn_custom_sticker_hint",
+        "layout_width": "@dimen/cm_dp_50",
+        "layout_height": "@dimen/cm_dp_50",
+        "layout_marginStart": "@dimen/cm_dp_70"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/cm_sp_12",
+        "textColor": "#ffffffff",
+        "gravity": "center",
+        "background": "@drawable/bg_store_button_use",
+        "layout_width": "wrap_content",
+        "layout_height": "@dimen/cm_dp_34",
+        "layout_marginBottom": "@dimen/cm_dp_23",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f1201f8",
+        "paddingStart": "@dimen/cm_dp_12",
+        "paddingEnd": "@dimen/cm_dp_12",
+        "layout_marginStart": "@dimen/cm_dp_20",
+        "text_ko": "사용자 정의 스티커를 추가하려면 탭하세요!",
+        "text_en": "Tap to add your custom sticker!"
+      },
+      {
+        "widget": "View",
+        "id": "@id/line",
+        "background": "@color/btn_save_color",
+        "layout_width": "@dimen/cm_dp_1",
+        "layout_height": "@dimen/cm_dp_24"
+      },
+      {
+        "widget": "com.camerasideas.baseutils.widget.AnimCircleView",
+        "id": "@id/sticker_circle_view",
+        "layout_width": "@dimen/cm_dp_24",
+        "layout_height": "@dimen/cm_dp_24",
+        "layout_marginBottom": "@dimen/cm_dp_38"
+      },
+      {
+        "widget": "ViewStub",
+        "id": "@id/popout_layout",
+        "layout": "@layout/layout_popout_loading",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "ViewStub",
+        "id": "@id/template_loading_layout",
+        "layout": "@layout/layout_template_loading",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "include",
+        "id": "@id/layout_change_background",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "include",
+        "id": "@id/layout_size_guid",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "include",
+        "id": "@id/layout_offset_guid",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "View",
+        "id": "@id/handle_touch",
+        "background": "@color/transparent_color",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.LayerToastView",
+        "id": "@id/layer_toast_view",
+        "visibility": "invisible",
+        "layout_width": "wrap_content",
+        "layout_height": "@dimen/cm_dp_44",
+        "layout_marginBottom": "@dimen/cm_dp_24",
+        "elevation": "@dimen/cm_dp_4"
+      }
+    ],
+    "edit_layout_view": [
+      {
+        "widget": "include",
+        "id": "@id/top_tool_bar_layout",
+        "layout_width": "fill_parent",
+        "layout_height": "@dimen/edit_toolbar_height"
+      },
+      {
+        "widget": "include",
+        "layout_gravity": "center|top",
+        "id": "@id/brush_undo_layout",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "com.camerasideas.baseutils.widget.DragFrameLayout",
+        "gravity": "center",
+        "id": "@id/middle_layout",
+        "layout_width": "fill_parent",
+        "layout_height": "0.0dip",
+        "layout_weight": "1.0"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.photoproc.graphicsitems.BottomLayerView",
+        "layout_gravity": "center",
+        "id": "@id/bottom_layer_view",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "FrameLayout",
+        "layout_gravity": "center",
+        "id": "@id/preview_layout",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.photoproc.graphicsitems.BackgroundView",
+        "layout_gravity": "center",
+        "id": "@id/background_view",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.photoproc.graphicsitems.ItemView",
+        "layout_gravity": "center",
+        "id": "@id/item_view",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "FrameLayout",
+        "layout_gravity": "center",
+        "id": "@id/gpu_container",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.photoproc.graphicsitems.DoodleView",
+        "layout_gravity": "center",
+        "id": "@id/doodle_view",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "ImageView",
+        "layout_gravity": "center",
+        "id": "@id/img_alignline_v",
+        "paddingBottom": "2.0dip",
+        "visibility": "gone",
+        "layout_width": "wrap_content",
+        "layout_height": "fill_parent",
+        "src": "@drawable/alignline_v",
+        "scaleType": "fitXY"
+      },
+      {
+        "widget": "ImageView",
+        "layout_gravity": "center",
+        "id": "@id/img_alignline_h",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content",
+        "src": "@drawable/alignline_h",
+        "scaleType": "fitXY"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.photoproc.graphicsitems.SwapOverlapView",
+        "id": "@id/swap_overlap_view",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.photoproc.editview.ItemAnimationView",
+        "id": "@id/item_animation_view",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.MoreTipBubbleView",
+        "id": "@id/more_tip_view",
+        "visibility": "invisible",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "include",
+        "gravity": "center",
+        "id": "@id/edit_text_layout",
+        "visibility": "gone"
+      },
+      {
+        "widget": "include",
+        "layout_gravity": "center",
+        "id": "@id/progressbar_layout",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.BrushPreviewView",
+        "layout_gravity": "center",
+        "id": "@id/brush_width",
+        "visibility": "gone",
+        "layout_width": "56.0dip",
+        "layout_height": "56.0dip"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "layout_gravity": "start|bottom",
+        "id": "@id/iv_help_view",
+        "visibility": "gone",
+        "layout_width": "@dimen/dp_35",
+        "layout_height": "@dimen/dp_35",
+        "layout_marginBottom": "@dimen/dp_12",
+        "src": "@drawable/iv_help",
+        "layout_marginStart": "@dimen/dp_12"
+      },
+      {
+        "widget": "LinearLayout",
+        "layout_gravity": "center|bottom",
+        "orientation": "horizontal",
+        "id": "@id/ratio_and_bg_layout",
+        "background": "@drawable/bg_radio_and_background",
+        "visibility": "gone",
+        "layout_width": "215.0dip",
+        "layout_height": "32.0dip",
+        "layout_marginBottom": "10.0dip"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/sp_12",
+        "textColor": "@color/white_color",
+        "ellipsize": "end",
+        "gravity": "center",
+        "id": "@id/btn_ratio",
+        "clickable": "true",
+        "layout_width": "0.0dip",
+        "layout_height": "fill_parent",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f120463",
+        "maxLines": "1",
+        "layout_weight": "1.0",
+        "text_ko": "비율",
+        "text_en": "Ratio"
+      },
+      {
+        "widget": "androidx.constraintlayout.widget.ConstraintLayout",
+        "id": "@id/btn_background",
+        "layout_width": "0.0dip",
+        "layout_height": "fill_parent",
+        "layout_weight": "1.0"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/sp_12",
+        "textColor": "@color/white_color",
+        "gravity": "center",
+        "id": "@id/tv_background",
+        "paddingLeft": "5.0dip",
+        "paddingRight": "5.0dip",
+        "layout_width": "wrap_content",
+        "layout_height": "fill_parent",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f120436",
+        "text_ko": "배경",
+        "text_en": "Background"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textColor": "@color/white_color",
+        "layout_gravity": "center_horizontal",
+        "id": "@id/swap_toast_message",
+        "background": "@drawable/swap_toast_frame",
+        "visibility": "gone",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginTop": "10.0dip",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f1203c4",
+        "shadowColor": "#bb000000",
+        "shadowRadius": "2.75",
+        "text_ko": "스왑 할 사진 선택",
+        "text_en": "Select photo to swap"
+      },
+      {
+        "widget": "ImageView",
+        "layout_gravity": "start|bottom",
+        "id": "@id/btn_recover",
+        "visibility": "gone",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginLeft": "15.0dip",
+        "layout_marginBottom": "15.0dip",
+        "contentDescription": "@null",
+        "layout_marginStart": "15.0dip"
+      },
+      {
+        "widget": "LinearLayout",
+        "gravity": "center_vertical",
+        "layout_gravity": "start|bottom",
+        "orientation": "horizontal",
+        "id": "@id/btn_adjust_reset",
+        "background": "@drawable/bg_adjust_reset",
+        "padding": "@dimen/cm_dp_13",
+        "visibility": "gone",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginLeft": "12.0dip",
+        "layout_marginBottom": "12.0dip",
+        "contentDescription": "@null",
+        "layout_marginStart": "12.0dip"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "12.0sp",
+        "textColor": "@color/color_333",
+        "id": "@id/tv_adjust_reset",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f120383",
+        "includeFontPadding": "false",
+        "layout_marginStart": "6.5dip",
+        "text_ko": "재설정",
+        "text_en": "RESET"
+      },
+      {
+        "widget": "ImageView",
+        "layout_gravity": "end|bottom",
+        "id": "@id/compare_btn",
+        "visibility": "gone",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginRight": "12.0dip",
+        "layout_marginBottom": "12.0dip",
+        "layout_marginEnd": "12.0dip"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.SeekBarWithTextView",
+        "layout_gravity": "bottom",
+        "id": "@id/edit_seekbar",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content",
+        "layout_marginLeft": "60.0dip",
+        "layout_marginRight": "60.0dip",
+        "layout_marginBottom": "50.0dip"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.EraserPreView",
+        "layout_gravity": "center|bottom",
+        "id": "@id/tattoo_eraser_preview",
+        "visibility": "gone",
+        "layout_width": "80.0dip",
+        "layout_height": "80.0dip",
+        "layout_marginBottom": "50.0dip"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/middle_mask_layout",
+        "visibility": "gone",
+        "clickable": "true",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "SeekBar",
+        "layout_gravity": "center|bottom",
+        "id": "@id/frame_style_seekbar",
+        "padding": "15.0dip",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content",
+        "maxHeight": "5.0dip",
+        "progress": "0",
+        "secondaryProgress": "50",
+        "progressDrawable": "@drawable/framestylescale_seekbar",
+        "minHeight": "5.0dip",
+        "thumb": "@drawable/framestyle_bar_round",
+        "layout_marginStart": "25.5dip",
+        "layout_marginEnd": "19.5dip"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.EditMenuProBanner",
+        "layout_gravity": "center|bottom",
+        "id": "@id/edit_pro_banner",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "@dimen/cm_dp_42"
+      },
+      {
+        "widget": "FrameLayout",
+        "layout_gravity": "center|bottom",
+        "id": "@id/bottom_layout_parent",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content",
+        "elevation": "2.0dip"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.EditToolsMenuRecyclerView",
+        "layout_gravity": "center|bottom",
+        "id": "@id/edit_tools_menu_recycler",
+        "background": "@color/tools_menu_bg_color",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/fragment_collage_layout",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "FrameLayout",
+        "layout_gravity": "bottom",
+        "id": "@id/bottom_layout",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "FrameLayout",
+        "layout_gravity": "bottom",
+        "id": "@id/bottom_layout_front",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "View",
+        "id": "@id/space_placeholder",
+        "layout_width": "fill_parent",
+        "layout_height": "0.0dip"
+      }
+    ],
+    "top_tool_bar_layout": [
+      {
+        "widget": "androidx.constraintlayout.widget.ConstraintLayout",
+        "id": "@id/top_tool_bar_layout",
+        "layout_width": "fill_parent",
+        "layout_height": "@dimen/edit_toolbar_height"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "id": "@id/btn_back",
+        "background": "@drawable/bg_common_btn_ripple",
+        "layout_width": "56.0dip",
+        "layout_height": "fill_parent",
+        "scaleType": "center"
+      },
+      {
+        "widget": "androidx.constraintlayout.widget.ConstraintLayout",
+        "id": "@id/btn_save",
+        "layout_width": "wrap_content",
+        "layout_height": "fill_parent",
+        "layout_marginEnd": "@dimen/cm_dp_6"
+      },
+      {
+        "widget": "com.camerasideas.baseutils.widget.AnimCircleView",
+        "id": "@id/save_anim_circle",
+        "focusable": "false",
+        "visibility": "gone",
+        "clickable": "false",
+        "layout_width": "@dimen/cm_dp_32",
+        "layout_height": "@dimen/cm_dp_32"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/cm_sp_18",
+        "textColor": "@color/btn_save_color",
+        "gravity": "center",
+        "id": "@id/tv_save",
+        "background": "@drawable/bg_common_btn_ripple",
+        "layout_width": "wrap_content",
+        "layout_height": "fill_parent",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f1203b0",
+        "textAllCaps": "true",
+        "paddingStart": "@dimen/cm_dp_2",
+        "paddingEnd": "@dimen/cm_dp_2",
+        "text_ko": "저장",
+        "text_en": "Save"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "id": "@id/btn_settings",
+        "background": "@drawable/bg_common_btn_ripple",
+        "padding": "@dimen/cm_dp_10",
+        "layout_width": "@dimen/cm_dp_40",
+        "layout_height": "fill_parent",
+        "scaleType": "fitCenter"
+      },
+      {
+        "widget": "LinearLayout",
+        "gravity": "center",
+        "orientation": "horizontal",
+        "id": "@id/undo_redo",
+        "layout_width": "wrap_content",
+        "layout_height": "fill_parent",
+        "layout_marginEnd": "10.0dip"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "id": "@id/iv_undo",
+        "background": "@drawable/bg_common_btn_ripple",
+        "padding": "4.0dip",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginStart": "4.0dip",
+        "layout_marginEnd": "4.0dip"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "id": "@id/iv_redo",
+        "background": "@drawable/bg_common_btn_ripple",
+        "padding": "4.0dip",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginStart": "4.0dip",
+        "layout_marginEnd": "4.0dip"
+      }
+    ],
+    "fragment_grid_layout": [
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.GridPanelRootLayout",
+        "layout_gravity": "bottom",
+        "orientation": "vertical",
+        "id": "@id/root_view",
+        "background": "@color/tools_menu_bg_color",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "LinearLayout",
+        "gravity": "center_vertical",
+        "orientation": "horizontal",
+        "id": "@id/btn_collage_layout",
+        "layout_width": "wrap_content",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/rl_template",
+        "background": "@drawable/bg_common_btn_ripple",
+        "layout_width": "wrap_content",
+        "layout_height": "fill_parent",
+        "layout_marginStart": "@dimen/dp_8"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/sp_14",
+        "textColor": "@color/select_collage_tab_color",
+        "layout_gravity": "center",
+        "id": "@id/grid_template",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f12042a",
+        "textAllCaps": "false",
+        "layout_marginStart": "@dimen/dp_8",
+        "layout_marginEnd": "@dimen/dp_8",
+        "text_ko": "템플릿",
+        "text_en": "Templates"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "layout_gravity": "end",
+        "id": "@id/tag_new_template",
+        "visibility": "gone",
+        "layout_width": "@dimen/cm_dp_4",
+        "layout_height": "@dimen/cm_dp_4",
+        "layout_marginTop": "@dimen/dp_12",
+        "layout_marginEnd": "@dimen/dp_4"
+      },
+      {
+        "widget": "View",
+        "layout_gravity": "center|bottom",
+        "id": "@id/selected_template",
+        "background": "@color/btn_save_color",
+        "layout_width": "@dimen/dp_30",
+        "layout_height": "3.0dip",
+        "layout_marginBottom": "5.0dip"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/rl_layout",
+        "background": "@drawable/bg_common_btn_ripple",
+        "layout_width": "wrap_content",
+        "layout_height": "fill_parent",
+        "layout_marginStart": "@dimen/dp_8"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/sp_14",
+        "textColor": "@color/select_collage_tab_color",
+        "layout_gravity": "center",
+        "id": "@id/grid_layout",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f12043d",
+        "textAllCaps": "false",
+        "layout_marginStart": "@dimen/dp_8",
+        "layout_marginEnd": "@dimen/dp_8",
+        "text_ko": "레이아웃",
+        "text_en": "Layout"
+      },
+      {
+        "widget": "View",
+        "layout_gravity": "center|bottom",
+        "id": "@id/selected_layout",
+        "background": "@color/btn_save_color",
+        "layout_width": "@dimen/dp_30",
+        "layout_height": "3.0dip",
+        "layout_marginBottom": "5.0dip"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/rl_ratio",
+        "background": "@drawable/bg_common_btn_ripple",
+        "layout_width": "wrap_content",
+        "layout_height": "fill_parent",
+        "layout_marginStart": "@dimen/dp_8"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/sp_14",
+        "textColor": "@color/select_collage_tab_color",
+        "layout_gravity": "center",
+        "id": "@id/grid_ratio",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f120463",
+        "textAllCaps": "false",
+        "layout_marginStart": "@dimen/dp_8",
+        "layout_marginEnd": "@dimen/dp_8",
+        "text_ko": "비율",
+        "text_en": "Ratio"
+      },
+      {
+        "widget": "View",
+        "layout_gravity": "center|bottom",
+        "id": "@id/selected_ratio",
+        "background": "@color/btn_save_color",
+        "layout_width": "@dimen/dp_30",
+        "layout_height": "3.0dip",
+        "layout_marginBottom": "5.0dip"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/rl_margin",
+        "background": "@drawable/bg_common_btn_ripple",
+        "layout_width": "wrap_content",
+        "layout_height": "fill_parent",
+        "layout_marginStart": "@dimen/dp_8"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/sp_14",
+        "textColor": "@color/select_collage_tab_color",
+        "layout_gravity": "center",
+        "id": "@id/grid_margin",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f120257",
+        "textAllCaps": "false",
+        "layout_marginStart": "@dimen/dp_8",
+        "layout_marginEnd": "@dimen/dp_8",
+        "text_ko": "마진",
+        "text_en": "Margin"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "layout_gravity": "end",
+        "id": "@id/tag_new_margin",
+        "visibility": "gone",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginTop": "@dimen/dp_10"
+      },
+      {
+        "widget": "View",
+        "layout_gravity": "center|bottom",
+        "id": "@id/selected_margin",
+        "background": "@color/btn_save_color",
+        "layout_width": "@dimen/dp_30",
+        "layout_height": "3.0dip",
+        "layout_marginBottom": "5.0dip"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/rl_border",
+        "background": "@drawable/bg_common_btn_ripple",
+        "layout_width": "wrap_content",
+        "layout_height": "fill_parent",
+        "layout_marginStart": "@dimen/dp_8"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/sp_14",
+        "textColor": "@color/select_collage_tab_color",
+        "layout_gravity": "center",
+        "id": "@id/grid_border",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f12007b",
+        "textAllCaps": "false",
+        "layout_marginStart": "@dimen/dp_8",
+        "layout_marginEnd": "@dimen/dp_8",
+        "text_ko": "테두리",
+        "text_en": "Border"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "layout_gravity": "end",
+        "id": "@id/tag_new_border",
+        "visibility": "gone",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginTop": "@dimen/dp_10"
+      },
+      {
+        "widget": "View",
+        "layout_gravity": "center|bottom",
+        "id": "@id/selected_border",
+        "background": "@color/btn_save_color",
+        "layout_width": "@dimen/dp_30",
+        "layout_height": "3.0dip",
+        "layout_marginBottom": "5.0dip"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/rl_backgroud",
+        "visibility": "gone",
+        "layout_width": "wrap_content",
+        "layout_height": "fill_parent",
+        "layout_marginStart": "@dimen/dp_23"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/sp_14",
+        "textColor": "@color/textColor",
+        "layout_gravity": "center",
+        "id": "@id/grid_background",
+        "background": "?selectableItemBackgroundBorderless",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f120436",
+        "textAllCaps": "false",
+        "text_ko": "배경",
+        "text_en": "Background"
+      },
+      {
+        "widget": "View",
+        "layout_gravity": "center|bottom",
+        "id": "@id/selected_background",
+        "background": "@color/textColor",
+        "layout_width": "@dimen/dp_30",
+        "layout_height": "3.0dip"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "id": "@id/grid_apply",
+        "background": "@drawable/bg_common_btn_ripple",
+        "layout_width": "62.0dip",
+        "layout_height": "fill_parent",
+        "scaleType": "center",
+        "layout_alignParentEnd": "true"
+      },
+      {
+        "widget": "View",
+        "layout_gravity": "end",
+        "id": "@id/shadow_line",
+        "background": "@drawable/bg_sticker_tab_end_shadow",
+        "layout_width": "6.0dip",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/grid_fragment",
+        "layout_width": "fill_parent",
+        "layout_height": "132.0dip"
+      }
+    ],
+    "fragment_margin_layout": [
+      {
+        "widget": "LinearLayout",
+        "gravity": "center",
+        "id": "@id/out_border_layout",
+        "layout_width": "fill_parent",
+        "layout_height": "0.0dip",
+        "layout_marginStart": "@dimen/dp_19",
+        "layout_marginEnd": "@dimen/dp_55"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "id": "@id/border_icon",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "SeekBar",
+        "layout_gravity": "center_vertical",
+        "id": "@id/border_seekbar",
+        "padding": "10.0dip",
+        "layout_width": "0.0dip",
+        "layout_height": "wrap_content",
+        "layout_marginLeft": "15.0dip",
+        "maxHeight": "2.0dip",
+        "progress": "0",
+        "progressDrawable": "@drawable/zoomin_seekbar",
+        "minHeight": "2.0dip",
+        "thumb": "@drawable/bg_progressbar",
+        "layout_weight": "1.0",
+        "layout_marginStart": "15.0dip"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "15.0sp",
+        "typeface": "sans",
+        "textStyle": "bold",
+        "textColor": "@color/icon_settings_color",
+        "gravity": "center",
+        "id": "@id/border_text_level",
+        "layout_width": "30.0dip",
+        "layout_height": "30.0dip",
+        "maxLines": "1"
+      },
+      {
+        "widget": "LinearLayout",
+        "gravity": "center",
+        "id": "@id/inner_border_layout",
+        "layout_width": "0.0dip",
+        "layout_height": "0.0dip"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "id": "@id/space_icon",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "SeekBar",
+        "layout_gravity": "center_vertical",
+        "id": "@id/space_seekbar",
+        "padding": "10.0dip",
+        "layout_width": "0.0dip",
+        "layout_height": "wrap_content",
+        "layout_marginLeft": "15.0dip",
+        "maxHeight": "2.0dip",
+        "progress": "0",
+        "progressDrawable": "@drawable/zoomin_seekbar",
+        "minHeight": "2.0dip",
+        "thumb": "@drawable/bg_progressbar",
+        "layout_weight": "1.0",
+        "layout_marginStart": "15.0dip"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "15.0sp",
+        "typeface": "sans",
+        "textStyle": "bold",
+        "textColor": "@color/icon_settings_color",
+        "gravity": "center",
+        "id": "@id/space_text_level",
+        "layout_width": "30.0dip",
+        "layout_height": "30.0dip",
+        "maxLines": "1"
+      },
+      {
+        "widget": "LinearLayout",
+        "gravity": "center",
+        "orientation": "horizontal",
+        "id": "@id/border_layout",
+        "layout_width": "0.0dip",
+        "layout_height": "0.0dip"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "id": "@id/corner_icon",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "SeekBar",
+        "layout_gravity": "center_vertical",
+        "id": "@id/corner_seekbar",
+        "padding": "10.0dip",
+        "layout_width": "0.0dip",
+        "layout_height": "wrap_content",
+        "layout_marginLeft": "15.0dip",
+        "maxHeight": "2.0dip",
+        "progress": "0",
+        "progressDrawable": "@drawable/zoomin_seekbar",
+        "minHeight": "2.0dip",
+        "thumb": "@drawable/bg_progressbar",
+        "layout_weight": "1.0",
+        "layout_marginStart": "15.0dip"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "15.0sp",
+        "typeface": "sans",
+        "textStyle": "bold",
+        "textColor": "@color/icon_settings_color",
+        "gravity": "center",
+        "id": "@id/corner_text_level",
+        "layout_width": "30.0dip",
+        "layout_height": "30.0dip",
+        "maxLines": "1"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "id": "@id/btn_border_reset",
+        "background": "?selectableItemBackgroundBorderless",
+        "layout_width": "24.0dip",
+        "layout_height": "24.0dip"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "id": "@id/btn_border_none",
+        "background": "?selectableItemBackgroundBorderless",
+        "layout_width": "24.0dip",
+        "layout_height": "24.0dip",
+        "layout_marginTop": "24.0dip"
+      }
+    ],
+    "fragment_border_layout": [
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "layout_gravity": "center_vertical",
+        "id": "@id/icon_border_color",
+        "layout_width": "19.0dip",
+        "layout_height": "19.0dip",
+        "src": "@drawable/ic_icon_style",
+        "layout_marginStart": "20.0dip"
+      },
+      {
+        "widget": "androidx.recyclerview.widget.RecyclerView",
+        "id": "@id/recyclerView",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content",
+        "layout_weight": "1.0",
+        "layout_marginStart": "15.0dip"
+      },
+      {
+        "widget": "LinearLayout",
+        "gravity": "center",
+        "orientation": "horizontal",
+        "id": "@id/inner_border_layout",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content",
+        "layout_marginStart": "20.0dip",
+        "layout_marginEnd": "20.0dip"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "id": "@id/space_icon",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "SeekBar",
+        "layout_gravity": "center_vertical",
+        "id": "@id/space_seekbar",
+        "padding": "10.0dip",
+        "layout_width": "0.0dip",
+        "layout_height": "wrap_content",
+        "maxHeight": "2.5dip",
+        "progress": "0",
+        "progressDrawable": "@drawable/zoomin_seekbar",
+        "minHeight": "2.5dip",
+        "thumb": "@drawable/bg_progressbar",
+        "layout_weight": "1.0",
+        "layout_marginStart": "15.0dip"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "15.0sp",
+        "typeface": "sans",
+        "textStyle": "bold",
+        "textColor": "@color/selector_border_text_color",
+        "gravity": "center",
+        "id": "@id/space_text_level",
+        "layout_width": "30.0dip",
+        "layout_height": "30.0dip",
+        "maxLines": "1"
+      }
+    ],
+    "fragment_ratio_layout": [
+      {
+        "widget": "RelativeLayout",
+        "id": "@id/adjust_inner_border_layout",
+        "visibility": "visible",
+        "layout_width": "fill_parent",
+        "layout_height": "50.0dip"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "id": "@id/btn_cancel",
+        "background": "@drawable/bg_common_btn_ripple",
+        "visibility": "gone",
+        "layout_width": "60.0dip",
+        "layout_height": "50.0dip",
+        "scaleType": "center"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "id": "@id/btn_apply",
+        "background": "@drawable/bg_common_btn_ripple",
+        "layout_width": "60.0dip",
+        "layout_height": "fill_parent",
+        "scaleType": "center",
+        "layout_alignParentRight": "true",
+        "layout_alignParentEnd": "true"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/index_circle_view_text_hint_size",
+        "textColor": "@color/icon_settings_color",
+        "id": "@id/ratio_title",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f120463",
+        "layout_centerHorizontal": "true",
+        "layout_centerVertical": "true",
+        "text_ko": "비율",
+        "text_en": "Ratio"
+      },
+      {
+        "widget": "androidx.recyclerview.widget.RecyclerView",
+        "layout_gravity": "center",
+        "id": "@id/ratio_recyclerView",
+        "scrollbars": "none",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content",
+        "divider": "@color/transparent_color"
+      }
+    ],
+    "fragment_free_grid_layout": [
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/text_fontstyle_icon_text_size",
+        "textColor": "@color/textColor",
+        "ellipsize": "end",
+        "gravity": "center",
+        "layout_gravity": "center",
+        "id": "@id/free_background",
+        "background": "?selectableItemBackgroundBorderless",
+        "layout_width": "fill_parent",
+        "layout_height": "35.0dip",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f120062",
+        "maxLines": "1",
+        "text_ko": "배경",
+        "text_en": "BACKGROUND"
+      },
+      {
+        "widget": "View",
+        "layout_gravity": "bottom",
+        "id": "@id/selected_bg",
+        "background": "@color/textColor",
+        "layout_width": "fill_parent",
+        "layout_height": "3.0dip"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/text_fontstyle_icon_text_size",
+        "textColor": "@color/textColor",
+        "ellipsize": "end",
+        "gravity": "center",
+        "layout_gravity": "center",
+        "id": "@id/free_border",
+        "background": "?selectableItemBackgroundBorderless",
+        "layout_width": "fill_parent",
+        "layout_height": "35.0dip",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f12007b",
+        "maxLines": "1",
+        "text_ko": "테두리",
+        "text_en": "Border"
+      },
+      {
+        "widget": "View",
+        "layout_gravity": "bottom",
+        "id": "@id/selected_border",
+        "background": "@color/textColor",
+        "layout_width": "fill_parent",
+        "layout_height": "3.0dip"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/text_fontstyle_icon_text_size",
+        "textColor": "@color/textColor",
+        "ellipsize": "end",
+        "gravity": "center",
+        "layout_gravity": "center",
+        "id": "@id/free_ratio",
+        "background": "?selectableItemBackgroundBorderless",
+        "layout_width": "fill_parent",
+        "layout_height": "35.0dip",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f120463",
+        "maxLines": "1",
+        "text_ko": "비율",
+        "text_en": "Ratio"
+      },
+      {
+        "widget": "View",
+        "layout_gravity": "bottom",
+        "id": "@id/selected_ratio",
+        "background": "@color/textColor",
+        "layout_width": "fill_parent",
+        "layout_height": "3.0dip"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "id": "@id/free_apply",
+        "background": "@drawable/bg_common_btn_ripple",
+        "layout_width": "60.0dip",
+        "layout_height": "50.0dip",
+        "scaleType": "center"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/grid_fragment",
+        "layout_width": "fill_parent",
+        "layout_height": "115.0dip"
+      }
+    ],
+    "fragment_gallery_layout": [
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.SheetCoordinatorLayout",
+        "layout_gravity": "bottom",
+        "id": "@id/root_view",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "LinearLayout",
+        "orientation": "vertical",
+        "id": "@id/content",
+        "background": "@color/tools_menu_bg_color",
+        "layout_width": "fill_parent",
+        "layout_height": "500.0dip"
+      },
+      {
+        "widget": "RelativeLayout",
+        "orientation": "horizontal",
+        "id": "@id/top_tab_layout",
+        "visibility": "visible",
+        "layout_width": "fill_parent",
+        "layout_height": "60.0dip"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "gravity": "center",
+        "layout_gravity": "center",
+        "id": "@id/btn_cancel",
+        "background": "@drawable/bg_common_btn_ripple",
+        "visibility": "gone",
+        "layout_width": "56.0dip",
+        "layout_height": "56.0dip",
+        "scaleType": "center"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "gravity": "center",
+        "layout_gravity": "center",
+        "id": "@id/btn_apply",
+        "background": "@drawable/bg_common_btn_ripple",
+        "layout_width": "56.0dip",
+        "layout_height": "50.0dip",
+        "scaleType": "center",
+        "layout_alignParentRight": "true",
+        "layout_alignParentEnd": "true"
+      },
+      {
+        "widget": "LinearLayout",
+        "gravity": "start|center",
+        "id": "@id/btn_choose_folder",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent",
+        "baselineAligned": "false",
+        "layout_toLeftOf": "@id/btn_apply",
+        "layout_toRightOf": "@id/btn_cancel",
+        "layout_toStartOf": "@id/btn_apply",
+        "layout_toEndOf": "@id/btn_cancel"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/cm_sp_18",
+        "textColor": "@color/color_262626",
+        "ellipsize": "end",
+        "gravity": "center_vertical",
+        "id": "@id/photo_folder",
+        "paddingLeft": "10.0dip",
+        "layout_width": "wrap_content",
+        "layout_height": "fill_parent",
+        "maxWidth": "150.0dip",
+        "lines": "1",
+        "singleLine": "true",
+        "paddingStart": "10.0dip"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "id": "@id/sign_more_less_view",
+        "layout_width": "wrap_content",
+        "layout_height": "fill_parent",
+        "scaleType": "center"
+      },
+      {
+        "widget": "LinearLayout",
+        "orientation": "vertical",
+        "id": "@id/setting_layout",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/cm_sp_14",
+        "textColor": "#ffffffff",
+        "gravity": "center",
+        "id": "@id/btn_select_all",
+        "background": "?selectableItemBackgroundBorderless",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f12003f",
+        "text_ko": "모든 사진에 대한 액세스 허용",
+        "text_en": "Allow Access to All Photos"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/cm_sp_14",
+        "textColor": "#ff5c8dfe",
+        "gravity": "center",
+        "id": "@id/btn_select_more",
+        "background": "?selectableItemBackgroundBorderless",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f1203c3",
+        "text_ko": "더 많은 사진 선택",
+        "text_en": "Select More Photos"
+      },
+      {
+        "widget": "View",
+        "layout_gravity": "top",
+        "id": "@id/toolbar_shadow",
+        "background": "@drawable/bg_shadow_image_selector_titlebar",
+        "layout_width": "fill_parent",
+        "layout_height": "3.0dip"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.gallery.ui.GalleryMultiSelectGroupView",
+        "gravity": "center",
+        "layout_gravity": "center",
+        "id": "@id/gallery_view",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "View",
+        "layout_gravity": "bottom",
+        "id": "@id/bottom_padding",
+        "background": "@color/tools_menu_bg_color",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "10.0dip"
+      }
+    ],
+    "activity_image_selector": [
+      {
+        "widget": "View",
+        "id": "@id/top_space",
+        "layout_width": "fill_parent",
+        "layout_height": "0.0dip"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/folder_area",
+        "layout_width": "fill_parent",
+        "layout_height": "0.0dip",
+        "layout_weight": "1.0"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "id": "@id/btn_folder",
+        "background": "@drawable/bg_common_btn_ripple",
+        "layout_width": "@dimen/cm_dp_56",
+        "layout_height": "@dimen/cm_dp_56",
+        "scaleType": "centerInside",
+        "tint": "@color/color_262626"
+      },
+      {
+        "widget": "androidx.recyclerview.widget.RecyclerView",
+        "id": "@id/rv_folder",
+        "scrollbars": "none",
+        "clipToPadding": "false",
+        "layout_width": "0.0dip",
+        "layout_height": "@dimen/cm_dp_28",
+        "layout_weight": "1.0",
+        "paddingEnd": "@dimen/cm_dp_16"
+      },
+      {
+        "widget": "View",
+        "id": "@id/toolbar_shadow",
+        "background": "@drawable/bg_shadow_image_selector_titlebar",
+        "layout_width": "fill_parent",
+        "layout_height": "3.0dip"
+      },
+      {
+        "widget": "LinearLayout",
+        "orientation": "vertical",
+        "id": "@id/setting_layout",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/cm_sp_14",
+        "textColor": "#ffffffff",
+        "gravity": "center",
+        "id": "@id/btn_select_all",
+        "background": "?selectableItemBackgroundBorderless",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f12003f",
+        "text_ko": "모든 사진에 대한 액세스 허용",
+        "text_en": "Allow Access to All Photos"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/cm_sp_14",
+        "textColor": "#ff5c8dfe",
+        "gravity": "center",
+        "id": "@id/btn_select_more",
+        "background": "?selectableItemBackgroundBorderless",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f1203c3",
+        "text_ko": "더 많은 사진 선택",
+        "text_en": "Select More Photos"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.gallery.ui.GalleryMultiSelectGroupView",
+        "id": "@id/gallery_view",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/sp_12",
+        "textColor": "@color/white_color",
+        "layout_gravity": "center_horizontal",
+        "id": "@id/hint_long_press",
+        "background": "@drawable/bg_long_press_hint",
+        "paddingTop": "@dimen/dp_5",
+        "paddingBottom": "@dimen/dp_5",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginTop": "@dimen/cm_dp_5",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f1203c2",
+        "paddingStart": "@dimen/dp_8",
+        "paddingEnd": "@dimen/dp_8",
+        "layout_marginStart": "@dimen/cm_dp_8",
+        "layout_marginEnd": "@dimen/cm_dp_8",
+        "text_ko": "사진을 길게 눌러서 미리 보세요",
+        "text_en": "Long press the photo to preview"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FastScrollView",
+        "layout_gravity": "end",
+        "id": "@id/fastscrollview",
+        "layout_width": "wrap_content",
+        "layout_height": "fill_parent",
+        "layout_weight": "1.0"
+      },
+      {
+        "widget": "androidx.constraintlayout.widget.ConstraintLayout",
+        "layout_gravity": "bottom",
+        "orientation": "vertical",
+        "id": "@id/layout_multiple",
+        "background": "@color/tools_menu_bg_color",
+        "focusable": "true",
+        "clickable": "true",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/cm_sp_14",
+        "textColor": "@color/color_262626",
+        "gravity": "start|center",
+        "id": "@id/btn_selected_hint",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginTop": "@dimen/cm_dp_16",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f1203c6",
+        "maxLines": "1",
+        "layout_marginStart": "@dimen/cm_dp_16",
+        "layout_alignParentStart": "true",
+        "text_ko": "1-%s 개의 사진 선택",
+        "text_en": "Select 1–%s photos"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "14.0sp",
+        "textColor": "@color/color_262626",
+        "gravity": "center",
+        "id": "@id/tv_selected_count",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_alignBaseline": "@id/btn_selected_hint",
+        "layout_alignBottom": "@id/btn_selected_hint",
+        "layout_marginStart": "15.0dip",
+        "layout_toEndOf": "@id/btn_selected_hint"
+      },
+      {
+        "widget": "androidx.recyclerview.widget.RecyclerView",
+        "id": "@id/selected_recyclerView",
+        "scrollbars": "none",
+        "layout_width": "fill_parent",
+        "layout_height": "150.0dip",
+        "divider": "@color/transparent_color",
+        "layout_marginStart": "@dimen/cm_dp_9"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "id": "@id/btn_clear",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginTop": "@dimen/dp_6",
+        "layout_centerVertical": "true",
+        "layout_marginEnd": "@dimen/cm_dp_10"
+      },
+      {
+        "widget": "FrameLayout",
+        "layout_gravity": "bottom",
+        "id": "@id/hint_layout",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.NewFeatureHintView",
+        "layout_gravity": "bottom",
+        "id": "@id/hint_selector_photo",
+        "visibility": "gone",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginBottom": "150.0dip"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/folder_popup_layout",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "View",
+        "id": "@id/folder_popup_scrim",
+        "background": "@color/transparent_color",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "androidx.recyclerview.widget.RecyclerView",
+        "id": "@id/rv_folder_popup",
+        "background": "@drawable/bg_popup_white_r10",
+        "paddingTop": "@dimen/cm_dp_8",
+        "paddingBottom": "@dimen/cm_dp_8",
+        "scrollbars": "none",
+        "clipToPadding": "false",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content",
+        "layout_marginTop": "@dimen/cm_dp_16",
+        "layout_marginBottom": "@dimen/cm_dp_16",
+        "overScrollMode": "never",
+        "layout_marginStart": "@dimen/cm_dp_56",
+        "layout_marginEnd": "@dimen/cm_dp_56",
+        "elevation": "@dimen/cm_dp_2"
+      },
+      {
+        "widget": "View",
+        "id": "@id/bottom_padding",
+        "layout_width": "fill_parent",
+        "layout_height": "0.0dip"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/layout_ad_container",
+        "background": "@color/tools_menu_bg_color",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "LinearLayout",
+        "gravity": "center",
+        "layout_gravity": "center|top",
+        "orientation": "horizontal",
+        "id": "@id/ad_layout",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content",
+        "layout_marginTop": "@dimen/ad_native_margin_top",
+        "minHeight": "@dimen/ad_native_layout_height"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/full_screen_fragment_container",
+        "layout_width": "0.0dip",
+        "layout_height": "0.0dip"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/move_layout",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "include",
+        "id": "@id/move_item_guide_mask",
+        "visibility": "gone"
+      }
+    ],
+    "fragment_template_filter": [
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/cm_sp_16",
+        "textColor": "@color/color_333",
+        "id": "@id/title",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginTop": "@dimen/cm_dp_20",
+        "layout_marginBottom": "@dimen/cm_dp_20",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f12040a",
+        "text_ko": "필터",
+        "text_en": "Filter"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "id": "@id/btn_close",
+        "padding": "10.0dip",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "foreground": "@drawable/bg_common_btn_ripple18",
+        "layout_marginEnd": "12.0dip"
+      },
+      {
+        "widget": "androidx.constraintlayout.widget.ConstraintLayout",
+        "orientation": "vertical",
+        "id": "@id/bottom_layout",
+        "focusable": "true",
+        "clickable": "true",
+        "layout_width": "wrap_content",
+        "layout_height": "@dimen/cm_dp_220"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "id": "@id/iv_count",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginTop": "@dimen/cm_dp_4",
+        "layout_marginStart": "@dimen/cm_dp_16"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/cm_sp_16",
+        "textColor": "@color/color_333",
+        "id": "@id/tv_count",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f120426",
+        "layout_marginStart": "@dimen/cm_dp_8",
+        "text_ko": "사진 수",
+        "text_en": "Number of Photos"
+      },
+      {
+        "widget": "androidx.recyclerview.widget.RecyclerView",
+        "id": "@id/recycler_photo_count",
+        "layout_width": "wrap_content",
+        "layout_height": "@dimen/cm_dp_28",
+        "layout_marginTop": "@dimen/cm_dp_16"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "id": "@id/iv_ratio",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginTop": "@dimen/cm_dp_26"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "@dimen/cm_sp_16",
+        "textColor": "@color/color_333",
+        "id": "@id/tv_ratio",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f120463",
+        "layout_marginStart": "@dimen/cm_dp_8",
+        "text_ko": "비율",
+        "text_en": "Ratio"
+      },
+      {
+        "widget": "androidx.recyclerview.widget.RecyclerView",
+        "id": "@id/recycler_ratio",
+        "layout_width": "wrap_content",
+        "layout_height": "@dimen/cm_dp_72",
+        "layout_marginTop": "@dimen/cm_dp_16",
+        "layout_marginBottom": "@dimen/cm_dp_24"
+      }
+    ],
+    "fragment_text_layout": [
+      {
+        "widget": "LinearLayout",
+        "orientation": "vertical",
+        "id": "@id/text_menu_layout",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "gravity": "center",
+        "layout_gravity": "end",
+        "id": "@id/btn_text_apply",
+        "background": "@drawable/bg_common_btn_ripple",
+        "layout_width": "50.0dip",
+        "layout_height": "50.0dip",
+        "scaleType": "center",
+        "tint": "@color/color_333",
+        "layout_centerVertical": "true",
+        "layout_alignParentEnd": "true"
+      },
+      {
+        "widget": "HorizontalScrollView",
+        "id": "@id/scroll_view",
+        "scrollbars": "none",
+        "layout_width": "fill_parent",
+        "layout_height": "fill_parent",
+        "fillViewport": "true",
+        "overScrollMode": "never",
+        "layout_marginEnd": "@dimen/text_cancel_width"
+      },
+      {
+        "widget": "LinearLayout",
+        "orientation": "horizontal",
+        "id": "@id/text_tab_layout",
+        "layout_width": "wrap_content",
+        "layout_height": "fill_parent"
+      },
+      {
+        "widget": "LinearLayout",
+        "gravity": "center",
+        "layout_gravity": "center",
+        "orientation": "vertical",
+        "id": "@id/btn_keyboard",
+        "background": "@drawable/bg_text_tab",
+        "paddingLeft": "10.0dip",
+        "paddingRight": "10.0dip",
+        "layout_width": "wrap_content",
+        "layout_height": "fill_parent",
+        "layout_marginTop": "@dimen/cm_dp_2",
+        "layout_marginBottom": "@dimen/cm_dp_2",
+        "layout_marginStart": "20.0dip"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "8.0sp",
+        "textColor": "@color/color_333",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginTop": "4.0dip",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f12022a",
+        "text_ko": "키보드",
+        "text_en": "Keyboard"
+      },
+      {
+        "widget": "LinearLayout",
+        "gravity": "center",
+        "layout_gravity": "center",
+        "orientation": "vertical",
+        "id": "@id/btn_font_basic",
+        "background": "@drawable/bg_text_tab",
+        "paddingLeft": "10.0dip",
+        "paddingRight": "10.0dip",
+        "layout_width": "wrap_content",
+        "layout_height": "fill_parent",
+        "layout_marginTop": "@dimen/cm_dp_2",
+        "layout_marginBottom": "@dimen/cm_dp_2",
+        "layout_marginStart": "20.0dip"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "8.0sp",
+        "textColor": "@color/color_333",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginTop": "4.0dip",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f12018f",
+        "text_ko": "폰트",
+        "text_en": "Font"
+      },
+      {
+        "widget": "LinearLayout",
+        "gravity": "center",
+        "layout_gravity": "center",
+        "orientation": "vertical",
+        "id": "@id/btn_style",
+        "background": "@drawable/bg_text_tab",
+        "paddingLeft": "10.0dip",
+        "paddingRight": "10.0dip",
+        "layout_width": "wrap_content",
+        "layout_height": "fill_parent",
+        "layout_marginTop": "@dimen/cm_dp_2",
+        "layout_marginBottom": "@dimen/cm_dp_2",
+        "layout_marginStart": "20.0dip"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "8.0sp",
+        "textColor": "@color/color_333",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginTop": "4.0dip",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f12040d",
+        "text_ko": "스타일",
+        "text_en": "Style"
+      },
+      {
+        "widget": "LinearLayout",
+        "gravity": "center",
+        "layout_gravity": "center",
+        "orientation": "vertical",
+        "id": "@id/btn_preset",
+        "background": "@drawable/bg_text_tab",
+        "paddingLeft": "10.0dip",
+        "paddingRight": "10.0dip",
+        "layout_width": "wrap_content",
+        "layout_height": "fill_parent",
+        "layout_marginTop": "@dimen/cm_dp_2",
+        "layout_marginBottom": "@dimen/cm_dp_2",
+        "layout_marginStart": "20.0dip"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "8.0sp",
+        "textColor": "@color/color_333",
+        "gravity": "center",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginTop": "4.0dip",
+        "maxWidth": "50.0dip",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f120307",
+        "text_ko": "프리셋",
+        "text_en": "Preset"
+      },
+      {
+        "widget": "androidx.constraintlayout.widget.ConstraintLayout",
+        "id": "@id/btn_text_curve",
+        "layout_width": "wrap_content",
+        "layout_height": "fill_parent",
+        "layout_marginStart": "20.0dip"
+      },
+      {
+        "widget": "LinearLayout",
+        "gravity": "center",
+        "orientation": "vertical",
+        "id": "@id/btn_curve",
+        "background": "@drawable/bg_text_tab",
+        "layout_width": "wrap_content",
+        "layout_height": "fill_parent",
+        "layout_marginTop": "@dimen/cm_dp_2",
+        "layout_marginBottom": "@dimen/cm_dp_2",
+        "layout_marginEnd": "@dimen/cm_dp_5"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "gravity": "center",
+        "id": "@id/iv_curve",
+        "layout_width": "@dimen/dp_24",
+        "layout_height": "@dimen/dp_24",
+        "scaleType": "center",
+        "layout_marginStart": "10.0dip",
+        "layout_marginEnd": "10.0dip"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "8.0sp",
+        "textColor": "@color/color_333",
+        "id": "@id/tv_curve",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginTop": "4.0dip",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f1200d6",
+        "text_ko": "커브",
+        "text_en": "Curve"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "id": "@id/tag_new_curve",
+        "visibility": "visible",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content"
+      },
+      {
+        "widget": "LinearLayout",
+        "gravity": "center",
+        "layout_gravity": "center",
+        "orientation": "vertical",
+        "id": "@id/btn_text_add",
+        "paddingLeft": "10.0dip",
+        "paddingRight": "10.0dip",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginTop": "@dimen/cm_dp_2",
+        "layout_marginBottom": "@dimen/cm_dp_2",
+        "layout_marginStart": "20.0dip"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.FontTextView",
+        "textSize": "8.0sp",
+        "textColor": "@color/color_333",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "layout_marginTop": "4.0dip",
+        "text": "@string/APKTOOL_DUPLICATE_string_0x7f12002c",
+        "text_ko": "사진 추가",
+        "text_en": "Add"
+      },
+      {
+        "widget": "FrameLayout",
+        "id": "@id/text_container_layout",
+        "background": "@color/color_f2",
+        "layout_width": "fill_parent",
+        "layout_height": "230.0dip"
+      },
+      {
+        "widget": "androidx.constraintlayout.widget.ConstraintLayout",
+        "id": "@id/edit_text_layout",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content",
+        "minHeight": "@dimen/dp_50"
+      },
+      {
+        "widget": "EditText",
+        "textSize": "@dimen/dp_16",
+        "textStyle": "normal",
+        "textColor": "@color/color_333",
+        "textColorHighlight": "@color/text_cursor_color",
+        "textColorHint": "@color/color_edit_text_hint",
+        "gravity": "start|center",
+        "id": "@id/edittext_input",
+        "background": "@drawable/bg_round_stroke",
+        "focusable": "true",
+        "focusableInTouchMode": "true",
+        "layout_width": "0.0dip",
+        "layout_height": "wrap_content",
+        "layout_marginTop": "@dimen/dp_10",
+        "layout_marginBottom": "@dimen/dp_10",
+        "minHeight": "36.0dip",
+        "hint": "@string/APKTOOL_DUPLICATE_string_0x7f120452",
+        "maxLines": "10",
+        "inputType": "textCapSentences|textAutoCorrect|textMultiLine",
+        "textSelectHandleLeft": "@drawable/text_select_handle_left",
+        "textSelectHandleRight": "@drawable/text_select_handle_right",
+        "textSelectHandle": "@drawable/text_select_handle",
+        "textCursorDrawable": "@drawable/text_cursor_default_drawable",
+        "paddingStart": "@dimen/dp_15",
+        "paddingEnd": "@dimen/dp_30",
+        "layout_marginStart": "@dimen/dp_15",
+        "layout_marginEnd": "@dimen/dp_15"
+      },
+      {
+        "widget": "ImageView",
+        "id": "@id/text_delete",
+        "layout_width": "wrap_content",
+        "layout_height": "wrap_content",
+        "src": "@drawable/icon_text_delete",
+        "layout_marginEnd": "@dimen/dp_15"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "gravity": "center",
+        "layout_gravity": "end",
+        "id": "@id/btn_apply",
+        "background": "@drawable/bg_common_btn_ripple",
+        "layout_width": "@dimen/text_cancel_width",
+        "layout_height": "fill_parent",
+        "scaleType": "center",
+        "tint": "@color/color_333"
+      },
+      {
+        "widget": "cn.dreamtobe.kpswitch.widget.KPSwitchFSPanelFrameLayout",
+        "id": "@id/bottom_child_layout",
+        "visibility": "gone",
+        "layout_width": "fill_parent",
+        "layout_height": "280.0dip"
+      }
+    ],
+    "fragment_text_adjust_layout": [
+      {
+        "widget": "HorizontalScrollView",
+        "id": "@id/align_layout",
+        "scrollbars": "none",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content",
+        "layout_marginTop": "23.0dip"
+      },
+      {
+        "widget": "LinearLayout",
+        "gravity": "center_horizontal",
+        "orientation": "horizontal",
+        "id": "@id/text_font_style_layout",
+        "background": "@drawable/bg_round_adjust",
+        "layout_width": "0.0dip",
+        "layout_height": "40.0dip",
+        "layout_weight": "3.0",
+        "paddingStart": "10.0dip",
+        "paddingEnd": "10.0dip",
+        "layout_marginStart": "@dimen/cm_dp_20"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "gravity": "center",
+        "id": "@id/btn_style_underline",
+        "background": "?selectableItemBackgroundBorderless",
+        "paddingTop": "3.0dip",
+        "paddingBottom": "3.0dip",
+        "layout_width": "0.0dip",
+        "layout_height": "fill_parent",
+        "scaleType": "center",
+        "layout_weight": "1.0"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "gravity": "center",
+        "id": "@id/btn_style_bold",
+        "background": "?selectableItemBackgroundBorderless",
+        "paddingTop": "3.0dip",
+        "paddingBottom": "3.0dip",
+        "layout_width": "0.0dip",
+        "layout_height": "fill_parent",
+        "src": "@drawable/ic_text_bold",
+        "scaleType": "center",
+        "layout_weight": "1.0",
+        "layout_marginStart": "15.0dip"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "gravity": "center",
+        "id": "@id/btn_style_italic",
+        "background": "?selectableItemBackgroundBorderless",
+        "paddingTop": "3.0dip",
+        "paddingBottom": "3.0dip",
+        "layout_width": "0.0dip",
+        "layout_height": "fill_parent",
+        "src": "@drawable/ic_text_italics",
+        "scaleType": "center",
+        "layout_weight": "1.0",
+        "layout_marginStart": "15.0dip"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "gravity": "center",
+        "id": "@id/btn_style_middleline",
+        "background": "?selectableItemBackgroundBorderless",
+        "paddingTop": "3.0dip",
+        "paddingBottom": "3.0dip",
+        "layout_width": "0.0dip",
+        "layout_height": "fill_parent",
+        "src": "@drawable/ic_text_middleline",
+        "scaleType": "center",
+        "layout_weight": "1.0",
+        "layout_marginStart": "15.0dip"
+      },
+      {
+        "widget": "LinearLayout",
+        "gravity": "center_horizontal",
+        "orientation": "horizontal",
+        "id": "@id/text_adjust_align_layout",
+        "background": "@drawable/bg_round_adjust",
+        "paddingTop": "8.0dip",
+        "paddingBottom": "8.0dip",
+        "layout_width": "0.0dip",
+        "layout_height": "40.0dip",
+        "layout_weight": "3.0",
+        "paddingStart": "18.0dip",
+        "paddingEnd": "18.0dip",
+        "layout_marginStart": "16.0dip"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "gravity": "center",
+        "id": "@id/btn_align_left",
+        "background": "?selectableItemBackgroundBorderless",
+        "layout_width": "0.0dip",
+        "layout_height": "fill_parent",
+        "scaleType": "center",
+        "layout_weight": "1.0"
+      },
+      {
+        "widget": "androidx.appcompat.widget.AppCompatImageView",
+        "gravity": "center",
+        "id": "@id/btn_align_middle",
+        "background": "?selectableItemBackgroundBorderless",
+        "layout_width": "0.0dip",
+        "layout_height": "fill_parent",
+        "src": "@drawable/icon_alignmiddle",
+        "scaleType": "center",
+        "layout_weight": "1.0",
+        "layout_marginStart": "10.0dip"
+      },
+      {
+        "widget": "ImageView",
+        "gravity": "center",
+        "id": "@id/btn_align_right",
+        "background": "?selectableItemBackgroundBorderless",
+        "layout_width": "0.0dip",
+        "layout_height": "fill_parent",
+        "src": "@drawable/icon_alignright",
+        "scaleType": "center",
+        "layout_weight": "1.0",
+        "layout_marginStart": "10.0dip"
+      },
+      {
+        "widget": "LinearLayout",
+        "gravity": "center_horizontal",
+        "orientation": "horizontal",
+        "id": "@id/text_case_layout",
+        "background": "@drawable/bg_round_adjust",
+        "paddingTop": "8.0dip",
+        "paddingBottom": "8.0dip",
+        "layout_width": "0.0dip",
+        "layout_height": "40.0dip",
+        "layout_weight": "4.0",
+        "paddingStart": "18.0dip",
+        "paddingEnd": "18.0dip",
+        "layout_marginStart": "16.0dip",
+        "layout_marginEnd": "@dimen/cm_dp_20"
+      },
+      {
+        "widget": "ImageView",
+        "gravity": "center",
+        "id": "@id/text_case_normal",
+        "background": "?selectableItemBackgroundBorderless",
+        "layout_width": "0.0dip",
+        "layout_height": "fill_parent",
+        "src": "@drawable/icon_text_normal",
+        "scaleType": "center",
+        "layout_weight": "1.0"
+      },
+      {
+        "widget": "ImageView",
+        "gravity": "center",
+        "id": "@id/text_case_upper",
+        "background": "?selectableItemBackgroundBorderless",
+        "layout_width": "0.0dip",
+        "layout_height": "fill_parent",
+        "src": "@drawable/icon_text_hcase",
+        "scaleType": "center",
+        "layout_weight": "1.0"
+      },
+      {
+        "widget": "ImageView",
+        "gravity": "center",
+        "id": "@id/text_case_first_upper",
+        "background": "?selectableItemBackgroundBorderless",
+        "layout_width": "0.0dip",
+        "layout_height": "fill_parent",
+        "src": "@drawable/icon_text_nocase",
+        "scaleType": "center",
+        "layout_weight": "1.0"
+      },
+      {
+        "widget": "ImageView",
+        "gravity": "center",
+        "id": "@id/text_case_lower",
+        "background": "?selectableItemBackgroundBorderless",
+        "layout_width": "0.0dip",
+        "layout_height": "fill_parent",
+        "src": "@drawable/icon_text_lcase",
+        "scaleType": "center",
+        "layout_weight": "1.0"
+      },
+      {
+        "widget": "LinearLayout",
+        "gravity": "center_vertical",
+        "orientation": "horizontal",
+        "id": "@id/character_container",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content",
+        "layout_marginStart": "@dimen/cm_dp_20",
+        "layout_marginEnd": "@dimen/cm_dp_20"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.SeekBarWithTextView",
+        "id": "@id/character_seek_bar",
+        "layout_width": "0.0dip",
+        "layout_height": "wrap_content",
+        "layout_marginLeft": "10.0dip",
+        "layout_weight": "1.0"
+      },
+      {
+        "widget": "LinearLayout",
+        "gravity": "center_vertical",
+        "orientation": "horizontal",
+        "id": "@id/line_container",
+        "layout_width": "fill_parent",
+        "layout_height": "wrap_content",
+        "layout_marginStart": "@dimen/cm_dp_20",
+        "layout_marginEnd": "@dimen/cm_dp_20"
+      },
+      {
+        "widget": "com.camerasideas.collagemaker.activity.widget.SeekBarWithTextView",
+        "id": "@id/line_seek_bar",
+        "layout_width": "0.0dip",
+        "layout_height": "wrap_content",
+        "layout_marginLeft": "10.0dip",
+        "layout_weight": "1.0"
+      }
+    ]
+  }
+}

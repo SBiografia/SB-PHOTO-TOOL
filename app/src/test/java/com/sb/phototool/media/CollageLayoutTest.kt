@@ -57,16 +57,16 @@ class CollageLayoutTest {
         assertEquals(collageLayouts(5).first { it.id == "hero-left" }.cells, resolvedCollageCells(5, "hero-left", invalid))
         assertEquals(collageCells(5), resolvedCollageCells(5, "missing", invalid))
         assertTrue(collageLayouts(0).isEmpty())
-        assertTrue(collageLayouts(10).isEmpty())
+        assertTrue(collageLayouts(16).isEmpty())
     }
 
     @Test
-    fun maxPhotoCount_usesNineCellsInTheSharedPreviewAndExportLayout() {
+    fun maxPhotoCount_usesFifteenCellsInTheSharedPreviewAndExportLayout() {
         val cells = collageCells(MAX_COLLAGE_PHOTOS)
 
         assertEquals(MAX_COLLAGE_PHOTOS, cells.size)
-        assertEquals(NormalizedCell(0f, 0f, 1f / 3f, 1f / 3f), cells.first())
-        assertEquals(NormalizedCell(2f / 3f, 2f / 3f, 1f, 1f), cells.last())
+        assertEquals(NormalizedCell(0f, 0f, 1f / 5f, 1f / 3f), cells.first())
+        assertEquals(NormalizedCell(4f / 5f, 2f / 3f, 1f, 1f), cells.last())
         assertTrue(cells.all { it.left >= 0f && it.top >= 0f && it.right <= 1f && it.bottom <= 1f })
     }
 }

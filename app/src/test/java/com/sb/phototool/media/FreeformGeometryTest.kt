@@ -10,8 +10,9 @@ class FreeformGeometryTest {
         CanvasRatio.STORY, .012f, .02f, -1, ExportSize(), outerMarginPercent = .03f)
 
     @Test fun enteringFreeform_showsEveryWholePhotoInsteadOfItsLayoutCrop() {
-        val sourceRatios = listOf(.75f, 4f / 3, 9f / 16, 16f / 9, .01f, 100f, .1f, 1.5f, 1f)
-        for (count in 1..9) for (ratio in CanvasRatio.entries) {
+        val examples = listOf(.75f, 4f / 3, 9f / 16, 16f / 9, .01f, 100f, .1f, 1.5f, 1f)
+        val sourceRatios = List(MAX_COLLAGE_PHOTOS) { examples[it % examples.size] }
+        for (count in 1..MAX_COLLAGE_PHOTOS) for (ratio in CanvasRatio.entries) {
             val before = job(count).copy(ratio = ratio, tiles = job(count).tiles.map {
                 it.copy(zoom = 2.6f, panX = .8f, panY = -.7f, quarterTurns = 1, flipHorizontal = true)
             })

@@ -11,8 +11,10 @@ import androidx.work.workDataOf
 import com.sb.phototool.R
 import com.sb.phototool.ToolboxApplication
 import com.sb.phototool.data.JobStore
+import com.sb.phototool.data.CompressionOriginalStore
 import com.sb.phototool.data.DiagnosticLog
 import com.sb.phototool.media.MediaProcessor
+import com.sb.phototool.model.CompressJob
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.withContext
@@ -35,6 +37,13 @@ class ToolboxWorker(
                 setProgress(workDataOf(KEY_CURRENT to current, KEY_TOTAL to safeTotal, KEY_LABEL to label))
                 setForeground(createForegroundInfo(label, current, safeTotal))
             }
+            var cleanupSaved = false
+            if (job is CompressJob) {
+                try {
+                    cleanupSaved = CompressionOriginalStore(applicationContext).complete(jobId, summary.compressedOriginalUris)
+                } catch (cancelled: CancellationException) { throw cancelled }
+                catch (failure: Exception) { DiagnosticLog.recordException(applicationContext, "compress/archive_save", failure) }
+            }
             store.remove(jobId)
             DiagnosticLog.record(applicationContext, "worker/${job.type}", "completed; saved=${summary.succeeded}; failed=${summary.failed}")
             Result.success(
@@ -45,6 +54,8 @@ class ToolboxWorker(
                     KEY_INPUT_BYTES to summary.inputBytes,
                     KEY_OUTPUT_BYTES to summary.outputBytes,
                     KEY_MEASURED_FILES to summary.measuredFiles,
+                    KEY_COMPRESSION_JOB_ID to if (cleanupSaved) jobId else null,
+                    KEY_COMPRESSION_CLEANUP_UNAVAILABLE to (job is CompressJob && !cleanupSaved),
                 ),
             )
         } catch (cancelled: CancellationException) {
@@ -83,6 +94,8 @@ class ToolboxWorker(
         const val KEY_INPUT_BYTES = "input_bytes"
         const val KEY_OUTPUT_BYTES = "output_bytes"
         const val KEY_MEASURED_FILES = "measured_files"
+        const val KEY_COMPRESSION_JOB_ID = "compression_job_id"
+        const val KEY_COMPRESSION_CLEANUP_UNAVAILABLE = "compression_cleanup_unavailable"
         private const val NOTIFICATION_ID = 2109
     }
 }
