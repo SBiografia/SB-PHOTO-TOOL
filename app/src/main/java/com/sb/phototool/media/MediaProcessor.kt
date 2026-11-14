@@ -253,7 +253,8 @@ class MediaProcessor(private val context: Context) {
                         if (tile.uri.isNotBlank()) {
                             val destination = destinations[element.index]
                             val source = imageBounds(Uri.parse(tile.uri))
-                            val placement = photoPlacement(source.width, source.height, destination.width, destination.height, tile)
+                            val placement = photoPlacement(source.width, source.height, destination.width, destination.height, tile,
+                                contentRotation = job.mode == CollageMode.LAYOUT)
                             val decodeEdge = kotlin.math.ceil(max(placement.width, placement.height)).toInt().coerceIn(1, MAX_STATIC_LONG_EDGE)
                             val bitmap = decodeStillBitmap(context, Uri.parse(tile.uri), decodeEdge, decodeEdge.toLong() * decodeEdge)
                             try { drawCollagePhoto(sceneCanvas, bitmap, destination, tile, radius, border, job.borderColor,

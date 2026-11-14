@@ -132,7 +132,8 @@ internal fun CollageCanvas(
                                                 val focal = event.calculateCentroid(useCurrent = false)
                                                 val next = transformPhoto(selectedTile, bitmap.width, bitmap.height, destination.width, destination.height,
                                                     pan.x, pan.y, zoom, if (focal.x.isFinite()) focal.x else destination.width / 2,
-                                                    if (focal.y.isFinite()) focal.y else destination.height / 2)
+                                                    if (focal.y.isFinite()) focal.y else destination.height / 2,
+                                                    contentRotation = current.mode == CollageMode.LAYOUT)
                                                 editor.drag(current.copy(tiles = current.tiles.mapIndexed { i, item -> if (i == index) next else item }))
                                             }
                                             event.changes.forEach { it.consume() }

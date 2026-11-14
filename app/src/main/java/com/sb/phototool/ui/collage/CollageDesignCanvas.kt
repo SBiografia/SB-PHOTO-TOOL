@@ -146,7 +146,8 @@ internal fun CollageDesignCanvas(editor: CollageEditorState, previews: Map<Strin
                                         val localFocal = rotatePoint(focal, center, -tile.frameRotation)
                                         val localPan = rotatePoint(pan, Offset.Zero, -tile.frameRotation)
                                         val changed = transformPhoto(tile, bitmap.width, bitmap.height, r.width, r.height,
-                                            localPan.x, localPan.y, zoom, localFocal.x - r.left, localFocal.y - r.top)
+                                            localPan.x, localPan.y, zoom, localFocal.x - r.left, localFocal.y - r.top,
+                                            contentRotation = start.mode == CollageMode.LAYOUT)
                                         editor.drag(start.copy(tiles = start.tiles.mapIndexed { i, t -> if (i == element.index) changed else t }))
                                     }
                                 }
