@@ -9,9 +9,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sb.phototool.data.CollageSettingsStore
 import com.sb.phototool.media.applyCollageTemplate
 import com.sb.phototool.model.JobSpec
 
@@ -19,8 +21,12 @@ internal val EditorAccent = Color(0xFF80A7FF)
 
 @Composable
 fun CollageEditorScreen(uris: List<Uri>, onBack: () -> Unit, onPick: () -> Unit, onSubmit: (JobSpec) -> Unit, selectionRevision: Int = 0) {
+    val context = LocalContext.current
     val inputs = uris.map(Uri::toString)
-    val editor = rememberSaveable(inputs, selectionRevision, saver = CollageEditorState.StateSaver) { CollageEditorState.create(inputs) }
+    val editor = rememberSaveable(inputs, selectionRevision, saver = CollageEditorState.StateSaver) {
+        CollageEditorState.create(inputs, CollageSettingsStore(context).load())
+    }
+    RememberCollageSettings(editor)
     var templates by rememberSaveable { mutableStateOf(false) }
     var library by rememberSaveable { mutableStateOf(false) }
     BackHandler(enabled = templates || library) { if (library) library = false else templates = false }
@@ -49,4 +55,31 @@ fun CollageEditorScreen(uris: List<Uri>, onBack: () -> Unit, onPick: () -> Unit,
     if (library) CollageLibraryDialog(editor.document, { loaded, template ->
         editor.update(if (template) applyCollageTemplate(editor.document, loaded) else loaded.copy(id = "draft")); library = false
     }, { library = false })
+}
+
+/**
+ * Remembers the canvas choices of the draft as they change, so the next collage
+ * starts with the same ratio, layout, spacing, corners, background and border.
+ *
+ * The effect keys on the remembered values, not on the whole document: moving or
+ * zooming a photo never touches this file, and a boundary or slider drag only
+ * writes while the value it produces is actually different.
+ */
+@Composable
+private fun RememberCollageSettings(editor: CollageEditorState) {
+    val context = LocalContext.current
+    val store = remember(context) { CollageSettingsStore(context) }
+    var remembered by remember { mutableStateOf(store.load()) }
+    val job = editor.document
+    val edits = listOf(
+        job.ratio, job.gapPercent, job.cornerPercent, job.backgroundColor,
+        job.outerMarginPercent, job.borderWidthPercent, job.borderColor, job.background,
+        job.layoutId, job.customCells, job.mode, job.templateId, job.tiles.size,
+    )
+    LaunchedEffect(edits) {
+        val next = remembered.rememberFrom(job)
+        if (next == remembered) return@LaunchedEffect
+        remembered = next
+        store.save(next)
+    }
 }
