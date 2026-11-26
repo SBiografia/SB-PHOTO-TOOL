@@ -6,8 +6,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.saveable.Saver
-import com.sb.phototool.model.CanvasRatio
 import com.sb.phototool.model.CollageJob
+import com.sb.phototool.model.CollageSettings
 import com.sb.phototool.model.ExportSize
 import com.sb.phototool.model.JobCodec
 import com.sb.phototool.model.TileTransform
@@ -80,9 +80,17 @@ internal class CollageEditorState(initial: CollageJob) {
             },
         )
 
-        fun create(uris: List<String>) = CollageEditorState(CollageJob(
-            id = "draft", tiles = uris.mapIndexed { index, uri -> TileTransform(uri, elementId = "photo-" + index) }, ratio = CanvasRatio.SQUARE,
-            gapPercent = .006f, cornerPercent = 0f, backgroundColor = -1, exportSize = ExportSize(),
-        ))
+        /** [settings] are the canvas choices remembered from the last collage; they only seed the new draft. */
+        fun create(uris: List<String>, settings: CollageSettings = CollageSettings()): CollageEditorState {
+            val layout = settings.layoutChoice(uris.size)
+            return CollageEditorState(CollageJob(
+                id = "draft", tiles = uris.mapIndexed { index, uri -> TileTransform(uri, elementId = "photo-" + index) },
+                ratio = settings.ratio, gapPercent = settings.gapPercent, cornerPercent = settings.cornerPercent,
+                backgroundColor = settings.backgroundColor, exportSize = ExportSize(),
+                layoutId = layout.layoutId, customCells = layout.customCells,
+                outerMarginPercent = settings.outerMarginPercent, borderWidthPercent = settings.borderWidthPercent,
+                borderColor = settings.borderColor, background = settings.background,
+            ))
+        }
     }
 }
